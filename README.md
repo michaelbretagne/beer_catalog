@@ -25,7 +25,7 @@ In this project, I developed a web application that provides a list of beer with
 7. Insert your Client ID & Client Secret into **client_secrets.json** file<br>
   1. Create a new project on **https://console.developers.google.com**<br>
   2. Choose Credentials from the menu on the left<br>
-  3 .Create an OAuth Client ID<br>
+  3. Create an OAuth Client ID<br>
   *You will then be able to get the client ID and client secret*<br>
 7. Access and test your application by visiting **http://localhost:8000 locally**
 8. Feel free to add your favorite beer into our database<br>
