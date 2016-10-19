@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>New Beer</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 col-md-offset-1 padding-top">
+			<form action="#" method = "post">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50" class="form-control " name="name" placeholder="Name of the beer" required="true">
+					
+					<label for="style">Style:</label>
+					<input type ="text" maxlength="20" class="form-control" name="style" placeholder="Style eg. IPA, Pale Ale, Blonde Ale" required>
+					
+					<label for="abv">ABV:</label>
+					<input type="text" class="form-control" name="abv" placeholder="Alcohol By Volume">
+					
+					<label for="ibu">IBU:</label>
+					<input type="text" maxlength="3" class="form-control" name="ibu" placeholder="International Bitterness Units">
+					
+					<button type="submit" class="btn btn-default" id="submit">
+					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Create</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+
