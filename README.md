@@ -21,11 +21,11 @@ In this project, I developed a web application that provides a list of beer with
 *This will create a directory inside the vagrant directory named tournament*<br>
 4. Run Vagrant by entering: vagrant up<br>
 5. Log into Vagrant Machine by entering: vagrant ssh<br>
-6. Run the application by entering: python /vagrant/catalog/project.py)
-7. Insert your Client ID & Client Secret into client_secrets.json file 
-  1. Create a new project on **https://console.developers.google.com**
-  2. Choose Credentials from the menu on the left.
-  3 .Create an OAuth Client ID.
-  *You will then be able to get the client ID and client secret*
+6. Run the application by entering: python /vagrant/catalog/project.py)<br>
+7. Insert your Client ID & Client Secret into **client_secrets.json** file<br>
+  1. Create a new project on **https://console.developers.google.com**<br>
+  2. Choose Credentials from the menu on the left<br>
+  3 .Create an OAuth Client ID<br>
+  *You will then be able to get the client ID and client secret*<br>
 7. Access and test your application by visiting **http://localhost:8000 locally**
-8. Feel free to add your favorite beer into our database. 
+8. Feel free to add your favorite beer into our database<br>
