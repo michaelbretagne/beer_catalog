@@ -6,6 +6,8 @@
 	</div>
 	<div class="row banner menu">
 		<div class="col-md-11 col-md-offset-1 padding-none">
+            <a href = "{{url_for('showCountry')}}">{{country.name}}</a> &#8594;
+            <a href = "{{url_for('showRegion', country_id=country.id)}}">{{region.name}}</a> &#8594; ...
 			<h1>{{ brewery.name }}
 			<figure class="creator">
 				<img src="{{ brewery_creator.picture }}">
@@ -34,7 +36,7 @@
 		<div class="col-md-11 padding-none">
 		    <a href="{{url_for('editBrewery', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
 				<button class="btn btn-default delete" id="edit-brewery">
-					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Edit Brewery
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>Edit Brewery
 				</button>
 			</a>
 			<a href="{{url_for('deleteBrewery', country_id = country.id , region_id=region.id, brewery_id=brewery.id)}}">
@@ -51,19 +53,23 @@
 		<div class="col-md-7"></div>
 	</div>
 	{% for beer in beers %}
-        <a href="{{url_for('editBeer', country_id = country.id , region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">Delete</a>
-			<div class="row">
-				<div class="col-md-1"></div>
-					<div class="col-md-10 list">
-						<h3>Name: {{beer.name}}</h3>
+			<div class="row list">
+					<div class="col-md-6">
+						<h3>{{beer.name}}</h3>
 						<p>Style: {{beer.style}}</p>
 						<p>ABV: {{beer.abv}}%</p>
                         <p>IBU: {{beer.ibu}}</p>
-                        <p>Beer added by {{beer_creator.name}}</p>
-                    
-					</div>
+                        <h4>{{num_ratings.pop(0)}} ratings</h4>
+                        <input name="input-3" class="input-3 rating rating-loading" data-size="xxs" value="{{avg_stars.pop(0)}}">
+                        <p>Beer added by {{beer_creator.pop(0)}}</p>
+                        <a href="{{url_for('beerDetails', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}"><button type="button" class="btn-link btn-xs">More details here</button></a>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/{{beer.image}}" height="auto" width="150">
+                    </div>
 				<div class="col-md-1"></div>
-			</div>
+            </div>
+            		
 		
 	{% endfor %}
 {% endblock %}

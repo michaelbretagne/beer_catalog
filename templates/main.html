@@ -2,7 +2,8 @@
 <html lang="en">
 	<head>
 		<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,700" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='star-rating.css') }}" media="all" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 	</head>
 	<body>
@@ -11,4 +12,20 @@
 			{% endblock %}
 		</div>
 	</body>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+    <script src="{{ url_for('static', filename='star-rating.js') }}" type="text/javascript"></script>
+    <script>
+        $("#input-id").rating();
+        $('#input-id').on('rating.hover', function(event, value, caption, target) {
+            console.log(value);
+            console.log(caption);
+            console.log(target);
+        });
+        rating.hoverleave
+    </script>
+    <script>
+    $('.input-3').rating({displayOnly: true, step: 0.5});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>
