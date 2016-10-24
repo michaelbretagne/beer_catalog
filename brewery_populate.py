@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Base, User, Country, Region, Brewery,Beer
+from database_setup import Base, User, Country, Region, Brewery, Beer, Rating
 
 engine = create_engine('sqlite:///beercatalog.db')
 # Bind the engine to the metadata of the Base class so that the
@@ -148,62 +148,69 @@ for brewery in breweries:
        session.commit()
 
 # Create breweries
-beers=[{"country_id":"1", "region_id":"1", "brewery_id":"1", "user_id":"1", "name":"Snake Handler Double IPA", "style":"American Double / Imperial IPA ", "abv":"10.00", "ibu":"103"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"2", "user_id":"1", "name":"Alaskan Smoked Porter", "style":"American Porter", "abv":"6.50", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"3", "user_id":"1", "name":"Hop Knot", "style":"American IPA ", "abv":"6.70", "ibu":"47"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"3", "user_id":"1", "name":"Hop Knot", "style":"American IPA ", "abv":"6.70", "ibu":"47"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"4", "user_id":"1", "name":"Paradise Porter", "style":"American Porter ", "abv":"6.24", "ibu":"38"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"5", "user_id":"1", "name":"Supplication", "style":"American Wild Ale ", "abv":"7.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"6", "user_id":"1", "name":"Lips Of Faith - La Folie", "style":"Flanders Oud Bruin", "abv":"7.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"7", "user_id":"1", "name":"Fuzzy Baby Ducks IPA", "style":"American IPA", "abv":"6.20", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"8", "user_id":"1", "name":"60 Minute IPA", "style":"American IPA", "abv":"6.00", "ibu":"60"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"9", "user_id":"1", "name":"Last Snow", "style":"American Porter ", "abv":"6.40", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"10", "user_id":"1", "name":"Tropicalia", "style":"American IPA", "abv":"6.50", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"11", "user_id":"1", "name":"Coconut Hiwa Porter", "style":"American Porter", "abv":"6.00", "ibu":"30"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"12", "user_id":"1", "name":"Pursuit Of Hoppiness", "style":"American Amber / Red Ale", "abv":"8.50", "ibu":"100"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"13", "user_id":"1", "name":"Born Yesterday Pale Ale", "style":"American Pale Ale", "abv":"", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"14", "user_id":"1", "name":"Zombie Dust", "style":"American Pale Ale", "abv":"6.20", "ibu":"60"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"15", "user_id":"1", "name":"PseudoSue", "style":"American Pale Ale", "abv":"5.80", "ibu":"50"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"16", "user_id":"1", "name":"Tallgrass Vanilla Bean Buffalo Sweat", "style":"Milk / Sweet Stout", "abv":"5.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"17", "user_id":"1", "name":"Citra Ass Down!", "style":"American Double / Imperial IPA", "abv":"8.20", "ibu":"68"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"18", "user_id":"1", "name":"Ghost In The Machine", "style":"American Double / Imperial IPA", "abv":"8.00", "ibu":"100"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"19", "user_id":"1", "name":"MO", "style":"American Pale Ale", "abv":"6.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"20", "user_id":"1", "name":"Westbrook Gose Gone Wild", "style":"Gose", "abv":"4.60", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"21", "user_id":"1", "name":"Julius", "style":"American IPA", "abv":"6.80", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"22", "user_id":"1", "name":"Founders Breakfast Stout", "style":"American Double / Imperial Stout ", "abv":"8.30", "ibu":"60"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"23", "user_id":"1", "name":"Furious", "style":"American IPA", "abv":"6.60", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"24", "user_id":"1", "name":"Crowd Control", "style":"American IPA", "abv":"8.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"25", "user_id":"1", "name":"Saison-Brett", "style":"Saison / Farmhouse Ale", "abv":"8.50", "ibu":"38"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"26", "user_id":"1", "name":"Ivan The Terrible Imperial Stout - Barrel-Aged", "style":"Russian Imperial Stout", "abv":"10.00", "ibu":"65"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"27", "user_id":"1", "name":"Melange A Trois", "style":"Belgian Strong Pale Ale", "abv":"11.30", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"28", "user_id":"1", "name":"Dirty Dog IPA", "style":"American IPA", "abv":"7.10", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"29", "user_id":"1", "name":"Smuttynose Baltic Porter", "style":"Baltic Porter", "abv":"9.24", "ibu":"35"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"30", "user_id":"1", "name":"HopLab: Citra", "style":"American Pale Ale", "abv":"5.20", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"31", "user_id":"1", "name":"Elevated IPA", "style":"American IPA", "abv":"7.20", "ibu":"100"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"32", "user_id":"1", "name":"All Green Everything", "style":"American Double / Imperial IPA", "abv":"10.50", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"33", "user_id":"1", "name":"Freak Of Nature DIPA", "style":"American Double / Imperial IPA", "abv":"8.50", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"34", "user_id":"1", "name":"Iron Horse", "style":"American Pale Ale", "abv":"4.80", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"35", "user_id":"1", "name":"Fat Head's Head Hunter IPA", "style":"American IPA", "abv":"7.50", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"36", "user_id":"1", "name":"BOMB!", "style":"American Double / Imperial Stout", "abv":"13.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"37", "user_id":"1", "name":"The Abyss", "style":"American Double / Imperial Stout", "abv":"12.20", "ibu":"65"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"38", "user_id":"1", "name":"Troegs Nugget Nectar", "style":"American Amber / Red Ale", "abv":"7.50", "ibu":"93"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"39", "user_id":"1", "name":"Derivative: Galaxy", "style":"American Pale Ale", "abv":"6.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"40", "user_id":"1", "name":"Mexican Cake", "style":"American Double / Imperial Stout", "abv":"10.50", "ibu":"50"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"41", "user_id":"1", "name":"Pile O' Dirt Porter", "style":"American Porter", "abv":"6.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"42", "user_id":"1", "name":"Classic Saison", "style":"Saison / Farmhouse Ale", "abv":"6.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"43", "user_id":"1", "name":"Atrial Rubicite", "style":"American Wild Ale", "abv":"5.80", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"44", "user_id":"1", "name":"Hop Nosh IPA", "style":"American IPA", "abv":"7.00", "ibu":"82"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"45", "user_id":"1", "name":"Heady Topper", "style":"American Double / Imperial IPA", "abv":"8.00", "ibu":"75"},
-       {"country_id":"1", "region_id":"1", "brewery_id":"46", "user_id":"1", "name":"Master Of Karate", "style":"American Double / Imperial IPA", "abv":"8.40", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"47", "user_id":"1", "name":"Bourbon Abominable Winter Ale", "style":"American Strong Ale", "abv":"14.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"48", "user_id":"1", "name":"Peregrine Porter", "style":"Baltic Porter", "abv":"7.20", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"49", "user_id":"1", "name":"Wisconsin Belgian Red", "style":"Fruit / Vegetable Beer ", "abv":"4.00", "ibu":""},
-       {"country_id":"1", "region_id":"1", "brewery_id":"50", "user_id":"1", "name":"Zonker Stout", "style":"Foreign / Export Stout", "abv":"6.00", "ibu":""}]
+beers=[{"country_id":"1", "region_id":"1", "brewery_id":"1", "user_id":"1", "image":"static/uploads/snake-handler.jpg", "name":"Snake Handler Double IPA", "style":"American Double / Imperial IPA ", "abv":"10.00", "ibu":"103", "description":"Dangerously drinkable, this Double IPA brew is a spirited celebration of all things hoppy. Aromas of pine, citrus, flowers, spice, pineapple, and grassiness complement a biscuit and caramel backbone. Hands down, our most requested beer."},
+       {"country_id":"1", "region_id":"1", "brewery_id":"2", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Alaskan Smoked Porter", "style":"American Porter", "abv":"6.50", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"3", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Hop Knot", "style":"American IPA ", "abv":"6.70", "ibu":"47", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"4", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Paradise Porter", "style":"American Porter ", "abv":"6.24", "ibu":"38", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"5", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Supplication", "style":"American Wild Ale ", "abv":"7.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"6", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Lips Of Faith - La Folie", "style":"Flanders Oud Bruin", "abv":"7.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"7", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Fuzzy Baby Ducks IPA", "style":"American IPA", "abv":"6.20", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"8", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"60 Minute IPA", "style":"American IPA", "abv":"6.00", "ibu":"60", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"9", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Last Snow", "style":"American Porter ", "abv":"6.40", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"10", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Tropicalia", "style":"American IPA", "abv":"6.50", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"11", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Coconut Hiwa Porter", "style":"American Porter", "abv":"6.00", "ibu":"30", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"12", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Pursuit Of Hoppiness", "style":"American Amber / Red Ale", "abv":"8.50", "ibu":"100", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"13", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Born Yesterday Pale Ale", "style":"American Pale Ale", "abv":"", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"14", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Zombie Dust", "style":"American Pale Ale", "abv":"6.20", "ibu":"60", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"15", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"PseudoSue", "style":"American Pale Ale", "abv":"5.80", "ibu":"50", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"16", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Tallgrass Vanilla Bean Buffalo Sweat", "style":"Milk / Sweet Stout", "abv":"5.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"17", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Citra Ass Down!", "style":"American Double / Imperial IPA", "abv":"8.20", "ibu":"68", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"18", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Ghost In The Machine", "style":"American Double / Imperial IPA", "abv":"8.00", "ibu":"100", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"19", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"MO", "style":"American Pale Ale", "abv":"6.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"20", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Westbrook Gose Gone Wild", "style":"Gose", "abv":"4.60", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"21", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Julius", "style":"American IPA", "abv":"6.80", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"22", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Founders Breakfast Stout", "style":"American Double / Imperial Stout ", "abv":"8.30", "ibu":"60", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"23", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Furious", "style":"American IPA", "abv":"6.60", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"24", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Crowd Control", "style":"American IPA", "abv":"8.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"25", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Saison-Brett", "style":"Saison / Farmhouse Ale", "abv":"8.50", "ibu":"38", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"26", "user_id":"1", "image":"static/uploads/not_available.jpg", "image":"static/uploads/not_available.jpg", "name":"Ivan The Terrible Imperial Stout - Barrel-Aged", "style":"Russian Imperial Stout", "abv":"10.00", "ibu":"65", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"27", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Melange A Trois", "style":"Belgian Strong Pale Ale", "abv":"11.30", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"28", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Dirty Dog IPA", "style":"American IPA", "abv":"7.10", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"29", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Smuttynose Baltic Porter", "style":"Baltic Porter", "abv":"9.24", "ibu":"35", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"30", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"HopLab: Citra", "style":"American Pale Ale", "abv":"5.20", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"31", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Elevated IPA", "style":"American IPA", "abv":"7.20", "ibu":"100", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"32", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"All Green Everything", "style":"American Double / Imperial IPA", "abv":"10.50", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"33", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Freak Of Nature DIPA", "style":"American Double / Imperial IPA", "abv":"8.50", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"34", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Iron Horse", "style":"American Pale Ale", "abv":"4.80", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"35", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Fat Head's Head Hunter IPA", "style":"American IPA", "abv":"7.50", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"36", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"BOMB!", "style":"American Double / Imperial Stout", "abv":"13.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"37", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"The Abyss", "style":"American Double / Imperial Stout", "abv":"12.20", "ibu":"65", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"38", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Troegs Nugget Nectar", "style":"American Amber / Red Ale", "abv":"7.50", "ibu":"93", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"39", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Derivative: Galaxy", "style":"American Pale Ale", "abv":"6.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"40", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Mexican Cake", "style":"American Double / Imperial Stout", "abv":"10.50", "ibu":"50", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"41", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Pile O' Dirt Porter", "style":"American Porter", "abv":"6.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"42", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Classic Saison", "style":"Saison / Farmhouse Ale", "abv":"6.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"43", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Atrial Rubicite", "style":"American Wild Ale", "abv":"5.80", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"44", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Hop Nosh IPA", "style":"American IPA", "abv":"7.00", "ibu":"82", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"45", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Heady Topper", "style":"American Double / Imperial IPA", "abv":"8.00", "ibu":"75", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"46", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Master Of Karate", "style":"American Double / Imperial IPA", "abv":"8.40", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"47", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Bourbon Abominable Winter Ale", "style":"American Strong Ale", "abv":"14.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"48", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Peregrine Porter", "style":"Baltic Porter", "abv":"7.20", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"49", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Wisconsin Belgian Red", "style":"Fruit / Vegetable Beer ", "abv":"4.00", "ibu":"", "description":"None"},
+       {"country_id":"1", "region_id":"1", "brewery_id":"50", "user_id":"1", "image":"static/uploads/not_available.jpg", "name":"Zonker Stout", "style":"Foreign / Export Stout", "abv":"6.00", "ibu":"", "description":"None"}]
 
 for beer in beers:
-       newBeer = Beer(name=beer['name'], style=beer['style'], abv=beer['abv'], ibu=beer['ibu'], country_id=beer['country_id'], region_id=beer["region_id"], brewery_id=beer["brewery_id"], user_id=beer["user_id"])
+       newBeer = Beer(image=beer['image'], name=beer['name'], style=beer['style'], abv=beer['abv'], ibu=beer['ibu'], description=beer['description'], country_id=beer['country_id'], region_id=beer["region_id"], brewery_id=beer["brewery_id"], user_id=beer["user_id"])
        session.add(newBeer)
        session.commit()
 
+# Create Ratings for beers
+ratings=[{"id":"1", "num_of_stars":"5", "user_id":"1", "beer_id":"1"},
+         {"id":"2", "num_of_stars":"3", "user_id":"1", "beer_id":"1"}]
+
+for rating in ratings:
+       newRating= Rating(id=rating["id"], num_of_stars=rating["num_of_stars"], user_id=rating["user_id"], beer_id=rating["beer_id"])
+       session.add(newRating)
+       session.commit()
 
 print "added countries, regions/states and breweries"
