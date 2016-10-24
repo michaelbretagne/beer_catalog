@@ -22,6 +22,14 @@ h3 {
 	color: #4A4A4A;
 	line-height: 23px;
 }
+
+h4 {
+	font-size: 16px;
+	color: #4A4A4A;
+    padding-top: 10px;
+	line-height: 23px;
+}
+
  p {
  	font-family: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif;
  	font-size: 16px;
@@ -41,6 +49,13 @@ h3 {
  	color: #0093B9;
  	line-height: 17px;
  }
+
+.log {
+ 	font-size: 14px;
+ 	color: #fff;
+ 	line-height: 17px;
+}
+
 .padding-top {
 	padding-top: 30px;
 }
@@ -86,7 +101,6 @@ h3 {
 	margin-bottom: 0;
 	line-height: 16px;
 	font-size: 16px;
-	color: #7B7573;
 	font-weight: 400;
 }
 .divider {
@@ -114,7 +128,7 @@ h3 {
 	background-color: #A6E8EB;
 }
 .banner h1 {
-	margin: 45px 0;
+	margin: 30px 0;
 }
 .list {
  	background-color: #F0F0F0;
@@ -153,4 +167,10 @@ h3 {
 	list-style-type: none;
 	text-align: center;
 
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
 }
