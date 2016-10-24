@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Table, Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -73,10 +73,12 @@ class Beer(Base):
     __tablename__ = 'beer'
 
     id = Column(Integer, primary_key=True)
+    image = Column(String(80), default="static/uploads/not_available.jpg")
     name = Column(String(80), nullable=False)
     style = Column(String(80)) # eg. IPA, PALE ALE...
     abv = Column(Integer) # Alcohol By Volume
     ibu = Column(Integer) # International Bitterness Units
+    description = Column(String(400)) # Description of the beer
     country_id = Column(Integer, ForeignKey('country.id'))
     region_id = Column(Integer, ForeignKey('region.id'))
     brewery_id = Column(Integer, ForeignKey('brewery.id'))
@@ -91,6 +93,24 @@ class Beer(Base):
         """Return object data in easily serializeable format"""
         return {
             'name': self.name,
+            'id': self.id,
+        }
+
+class Rating(Base):
+    __tablename__ = 'rating'
+
+    id = Column(Integer, primary_key=True)
+    num_of_stars = Column(Integer, default=0)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    beer_id = Column(Integer, ForeignKey('beer.id'))
+    beer = relationship(Beer)
+    user = relationship(User)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'num_of_stars': self.num_of_stars,
             'id': self.id,
         }
 
