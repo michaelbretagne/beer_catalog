@@ -1,0 +1,70 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+   
+    <div class="container-fluid image">       
+        <div class="row">
+            <div class="col-md-12 text-center white padding">   
+                <h1>Beer Catalog</h1><br>
+                <h2>Thirsty? Want a cold one but you don't know which one!</h2>
+                <h3>Here are the top rated beer in the US</h3>	        
+                <h4>Search, Review, Create... </h4>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-md-12 text-center">  
+                {%if 'username' not in session %}  
+                <a href="{{url_for('showLogin')}}" class="btn btn-success btn-lg btn-center" role="button">Sign In</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box text-center">
+                    <h4>Search by Style</h4>
+                    <div class="dropup">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Selections!
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu scrollable-menu">
+                            <li class="dropdown-header">Style</li>
+                            {% for style in styles %}
+                                <li><a href="#">{{style.style}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box text-center">
+                    <h4>Search by Region/State</h4>
+                    <div class="dropup">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Selections!
+                        <span class="caret"></span></button>
+                        <ul class="dropdown-menu scrollable-menu">
+                            <li class="dropdown-header">States</li>
+                            {% for region in regions %}
+                            <li><a href="#">{{region.name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+<!--
+        {% for country in countries %}
+            <a href = "{{url_for('showRegion', country_id=country.id)}}">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                        <div class="col-md-10 list">
+                            <h3>{{country.name}}</h3>
+                        </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </a>
+        {% endfor %}
+-->
