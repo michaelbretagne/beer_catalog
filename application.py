@@ -264,6 +264,11 @@ def gdisconnect():
 
 # Show all the country
 @app.route('/')
+def mainPage():
+    regions = session.query(Region).order_by(asc(Region.name)).all()
+    styles = session.query(Beer.style).group_by(Beer.style).order_by(asc(Beer.style)).all()
+    return render_template('home.html', regions=regions, styles=styles)
+
 @app.route('/country/')
 def showCountry():
     countries = session.query(Country).order_by(asc(Country.name)).all()
