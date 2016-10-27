@@ -5,7 +5,7 @@ from flask import send_from_directory
 
 from werkzeug.utils import secure_filename
 
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.sql import func
 from sqlalchemy.orm import sessionmaker
 
@@ -269,6 +269,46 @@ def mainPage():
     styles = session.query(Beer.style).group_by(Beer.style).order_by(asc(Beer.style)).all()
     return render_template('home.html', regions=regions, styles=styles)
 
+@app.route('/style/<style>/', methods=['GET', 'POST'])
+def beerStyle(style):
+    if 'username' not in login_session:
+        return redirect('/login')
+    beers = session.query(Beer).filter_by(style=style).all()
+
+    # top_beers = session.query(Rating, (func.avg(Rating.num_of_stars).label("avg"))).order_by(desc("avg")).all()
+    # for top in top_beers:
+    #     print top[0].beer_id
+
+    # render_template(....  , top_beers=top_beers
+
+
+    if beers:
+        countries = []
+        regions = []
+        breweries = []
+        num_ratings = []
+        avg_stars = []
+        for beer in beers:
+            country = session.query(Country.id).filter_by(id=beer.country_id).one()[0]
+            countries.append(country)
+
+            region = session.query(Region.id).filter_by(id=beer.region_id).one()[0]
+            regions.append(region)
+
+            brewery = session.query(Brewery.id).filter_by(id=beer.brewery_id).one()[0]
+            breweries.append(brewery)
+
+            ratings = session.query(Rating.num_of_stars).filter_by(beer_id=beer.id).count()
+            num_ratings.append(ratings)
+
+            stars = session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
+            if stars == None:
+                stars = 0
+            avg_stars.append(stars)
+
+    return render_template('beerStyle.html', beers=beers, style=style, num_ratings=num_ratings, avg_stars=avg_stars, countries=countries, regions=regions, breweries=breweries)
+
+
 @app.route('/country/')
 def showCountry():
     countries = session.query(Country).order_by(asc(Country.name)).all()
@@ -463,11 +503,16 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
     region = session.query(Region).filter_by(id=region_id).one()
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     beer = session.query(Beer).filter_by(id=beer_id).one()
-    rated_by = session.query(Rating.user_id).filter_by(beer_id=beer_id).all()[0][0]
+    rating = session.query(Rating).filter_by(beer_id=beer_id).all()
+    print rating
     beer_creator = getUserInfo(beer.user_id)
+    if rating:
+        rated_by = session.query(Rating.user_id).filter_by(beer_id=beer_id).all()[0][0]
+    else:
+        rated_by = None
     if request.method == 'POST':
         user_id = login_session['user_id']
-        if user_id == rated_by:
+        if user_id != rated_by:
             newRating = Rating(num_of_stars=request.form['input-2'], beer_id=beer_id, user_id=user_id)
             session.add(newRating)
             session.commit()
@@ -476,6 +521,12 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
         else:
             flash('Rating canceled! You already previously rate this beer')
     return render_template('beerDetails.html', country=country, region=region, brewery=brewery, beer=beer, beer_creator=beer_creator)
+
+
+
+
+
+
 
 # Path of the uploaded images
 UPLOAD_FOLDER = 'static/uploads'
