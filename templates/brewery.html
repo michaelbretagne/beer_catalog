@@ -1,46 +1,49 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-	<div class="row divider green">
-		<div class="col-md-12"></div>
-	</div>
+<div class="container-fluid background-pages">
 	<div class="row banner menu">
 		<div class="col-md-11 col-md-offset-1 padding-none">
            <a href = "{{url_for('showCountry')}}">{{country.name}}</a> &#8594; ...
             <h1>{{ region.name }}</h1>
 		</div>
 	</div>
-<div class="flash">
-		      {% with messages = get_flashed_messages() %}
-      {% if messages %}       
-        <ul>
-        {% for message in messages %}
-            <li> <strong> {{ message }} </strong> </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
-</div>
+    <div class="flash">
+                  {% with messages = get_flashed_messages() %}
+          {% if messages %}       
+            <ul>
+            {% for message in messages %}
+                <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
 	<div class="row padding-top padding-bottom">
 		<div class="col-md-1"></div>
 		<div class="col-md-11 padding-none">
 			<a href="{{url_for('newBrewery', country_id=country.id, region_id=region.id)}}">
 				<button class="btn btn-default new-brewery">
-					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Add a Brewery in {{region.name}}
+					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span> Add a Brewery in {{region.name}}
 				</button>
 			</a>
 		</div>
 		<div class="col-md-7"></div>
 	</div>
-	{% for brewery in breweries %}
-		<a href = "{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
-			<div class="row">
-				<div class="col-md-1"></div>
-					<div class="col-md-10 list">
-						<h3>{{brewery.name}}</h3>
-					</div>
-				<div class="col-md-1"></div>
-			</div>
-		</a>
-	{% endfor %}
+	<div class="breweries">
+        {% for brewery in breweries %}
+        <div class="brewery">
+            <a href = "{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                        <div class="col-md-10 list">
+                            <h4>{{brewery.name}}</h4>
+                        </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

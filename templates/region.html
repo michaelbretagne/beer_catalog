@@ -1,14 +1,22 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-	<div class="row divider green">
-		<div class="col-md-12"></div>
-	</div>
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>{{ country.name }}</h1>
-		</div>
-	</div>
+	
+<div class="container-fluid background-pages">
+    <div class="row banner menu">
+        <div class="col-md-12 text-center padding-none">
+            <h2>{{ country.name }}</h2>
+        </div>
+    </div>
+    <div class="map-size">
+        <div class="lg-map-wrapper" data-map="/static/lg-map/usa.js">
+            <div id="lg-map"></div>
+            <div class="lg-map-text"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<!--
 	<div class="row padding-top padding-bottom"></div>
 	{% for region in regions %}
 		<a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}">
@@ -21,4 +29,5 @@
 			</div>
 		</a>
 	{% endfor %}
-{% endblock %}
+-->
+

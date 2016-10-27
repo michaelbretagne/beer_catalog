@@ -1,0 +1,55 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="container-fluid background-style">
+   <div class="row">
+       <div class="col-sm-8 main-box">
+               <h3 class="text-center padding-bottom">All {{ style }}</h3>
+                {% for beer in beers %}
+                <div class="row">
+                    <div class="col-md-3 image-box text-center">
+                        <img src="/{{beer.image}}" height="auto" width="100">
+                    </div>
+                    <div class="col-md-8 details-box">
+                        <h4>{{beer.name}}</h4>
+                        <p>Style: {{beer.style}}</p>
+                        <a href="{{url_for('beerDetails', country_id=countries.pop(0), region_id=regions.pop(0), brewery_id=breweries.pop(0), beer_id=beer.id)}}"><button type="button" class="btn-link btn-xs">More details here</button></a>
+                    </div>
+                </div>
+                <div class="row beer-details">
+                    <div class="col-md-3 abv">
+                        <p>ABV: {{beer.abv}}%</p>
+                    </div>
+                    <div class="col-md-2 ibu">
+                        <p>IBU: {{beer.ibu}}</p>
+                    </div>
+                    <div class="col-md-4 stars">
+                        <input name="input-3" class="input-3 rating rating-loading" data-size="xxs" value="{{avg_stars.pop(0)}}">
+                    </div>
+                    <div class="col-md-3 ratings">
+                        <p>{{num_ratings.pop(0)}} ratings</p>
+                    </div>
+                </div>
+                {% endfor %} 
+       </div>
+       <div class="row">
+           <div class="col-sm-3 side-box">
+                <h5 class="text-center">Top Rated beers</h5>
+<!--
+               {% for top_beer in top_beers %}
+               <div class="row">
+                    <div class="col-md-1 image-box text-center">
+                        <img src="/{{top_beer.image}}" height="auto" width="30">
+                    </div>
+                    <div class="col-md-8 details-box">
+                        <h4>Name: {{top_beer.name}}</h4>
+                        <p>Style: {{top_beer.style}}</p>
+                   </div>
+               </div>
+               {% endfor %}
+-->
+           </div>
+       </div>
+   </div>
+</div>
+{% endblock %}
