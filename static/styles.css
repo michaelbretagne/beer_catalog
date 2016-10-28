@@ -1,3 +1,5 @@
+/*---------color---------*/
+
 .light-blue {
     color: #eff9ff;
 }
@@ -18,12 +20,16 @@
     color: #f0c80d;
 }
 
+.white {
+    color: #fff;
+}
 
-
+/*-------------------*/
 
 body {
-    background-color: #262930;
-    
+/*    background-color: #262930;*/
+    background-image: url(ardoise-3.jpg);
+    background-attachment: fixed;
 }
 
 .row {
@@ -31,6 +37,7 @@ body {
 }
 
 p {
+    font-size: 14px;
     margin: 10px 0;
 }
 
@@ -39,18 +46,58 @@ a {
 }
 
 a:hover {
-    color: #080808;
+    color: #5e5e5e;
+    text-decoration: none;
 }
 
 h1, h2, h3, h4, h5 {
     color: #080808;
 }
 
+/*---------Button----------*/
 
+.btn_success {
+    background-color: transparent;
+    color: #5e5e5e;
+    border: 2px solid #4caf50;
+    border-radius: 5px;
+    padding: 8px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 5px 5px;
+    transition-duration: 0.4s;
+}
 
+.btn_success:hover {
+    background-color: #4caf50;
+    color: white;
+}
+
+.btn_danger {
+    background-color: transparent;
+    color: #5e5e5e;
+    border: 2px solid #f44336;
+    border-radius: 5px;
+    padding: 8px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 5px 5px;
+    transition-duration: 0.4s;
+}
+
+.btn_danger:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+/*---------Padding----------*/
 .padding {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+.padding-top {
+    padding-top: 10px;
 }
 
 .padding-bottom {
@@ -58,15 +105,28 @@ h1, h2, h3, h4, h5 {
     border-bottom: solid 1px #e0e0e0;
 }
 
-.white {
-    color: #fff;
+.padding-xs {
+    padding-bottom: 10px;
 }
 
+/*---------Navbar----------*/
+
 .navbar {
-    background-color: #e3f2fd;
+/*    background-color: #e3f2fd;*/
+/*    background-image: url(home-banner.jpg);*/
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #f0c80d;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropup-toggle.btn-default {
+    background: #f0c80d;
+}
+
+/*---------dropdown---------*/
 
 .dropdown-menu {
     width: 100%;
@@ -79,19 +139,23 @@ h1, h2, h3, h4, h5 {
     overflow-x: hidden;
 }
 
+
+
+/*---------background---------*/
+
 .background-home {
     background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)), url(./img1.jpg);
     background-size: cover;
     width: 100%;
-    min-height: 500px;
+    min-height: 600px;
     padding-top: 20px;
     border-radius: 4px
 }
 
 .background-pages {
-    background-color: #eff9ff;
+    background-color: rgba(248, 248, 248, 0.80);
     width: 100%;
-    min-height: 500px;
+    min-height: 600px;
     padding-top: 20px;
     padding-bottom: 20px;
     border-radius: 4px;
@@ -99,46 +163,30 @@ h1, h2, h3, h4, h5 {
 
 .background-style {
     width: 100%;
-    min-height: 500px;
+    min-height: 600px;
     border-radius: 4px;
 }
 
-.box {
-    color: #fff;
-    width: 70%;
-    height: 90px;
-    margin: 80px auto 30px auto;
-    background-color: rgb(227, 242, 253, 0.80);
-    border: 1px solid #e3f2fd;
-   border-radius: 4px;
-}
+/*---------Map-----------*/
 
 .map-size {
     width: 70%;
     margin: 10px auto;
 }
 
-/*
-.breweries {
-    width: 90%;
-    padding: 20px 20px;
-    margin: 0 auto;
-}
+/*---------Boxes-----------*/
 
-.brewery {
-    padding: 15px 0px;
-    border-bottom: solid 1px #555;
+.box {
+    color: #f8f8f8;
+    width: 70%;
+    height: 90px;
+    margin: 105px auto 30px auto;
+    border: 1px solid #e3f2fd;
+    border-radius: 4px;
 }
-*/
-
-/*
-.brewery:hover {
-    background-color: #e0e0e0;
-}
-*/
 
 .main-box {
-    background-color: #eff9ff;
+    background-color: rgba(248, 248, 248, 0.80);
     border: solid 1px #e0e0e0;
     border-radius: 4px;
     margin: 0px 5px;
@@ -146,10 +194,29 @@ h1, h2, h3, h4, h5 {
 }
 
 .side-box {
-    background-color: #eff9ff;
+    background-color: #f8f8f8;
     border: solid 1px #555;
     border-radius: 4px;
     margin: 0px 30px;
+}
+
+/*-------Brewery Deatils---------*/
+
+.brewery-details {
+    border-top: solid 1px #e0e0e0;
+    border-bottom: solid 1px #e0e0e0;
+}
+
+/*----------Flags-----------*/
+
+.flags {
+    padding-top: 14px;
+}
+
+/*-------Beer Deatils---------*/
+
+.border {
+    border-right: solid 1px #e0e0e0;
 }
 
 .beer-details {
@@ -174,12 +241,14 @@ h1, h2, h3, h4, h5 {
     margin: 0px auto;
 }
 
+/*---------Footer-----------*/
+
 footer {
     margin-top: 30px;
     margin-bottom: 30px;
     border-radius: 4px;
-	text-align: center;
-    background-color: #eff9ff;
+    text-align: center;
+    background-color: #f8f8f8;
 }
 
 /*--------- Icons/Links (footer)-----------*/
