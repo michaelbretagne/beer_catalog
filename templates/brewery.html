@@ -2,46 +2,60 @@
 {% block content %}
 {% include "header.html" %}
 <div class="container-fluid background-pages">
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-           <a href = "{{url_for('showCountry')}}">{{country.name}}</a> &#8594; ...
-            <h1>{{ region.name }}</h1>
+	<div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 text-center brewery-details">
+                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}">{{country.name}}</a></h5>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3 text-center padding">
+			    <img class="flags" src="/{{region.flag}}" height="auto" width="60">
+            </div>
+            <div class="col-md-3 padding">
+			    <h2>{{region.name}}</h2>
+            </div>
+            <div class="col-md-3"></div>
 		</div>
-	</div>
-    <div class="flash">
-                  {% with messages = get_flashed_messages() %}
-          {% if messages %}       
-            <ul>
-            {% for message in messages %}
-                <li> <strong> {{ message }} </strong> </li>
-            {% endfor %}
-            </ul>
-            {% endif %}
-        {% endwith %}
+        <div class="col-md-3 text-center">
+<!--
+    
+             
+-->
+        </div>
+    <!--
+        <div class="flash">
+                      {% with messages = get_flashed_messages() %}
+              {% if messages %}       
+                <ul>
+                {% for message in messages %}
+                    <li> <strong> {{ message }} </strong> </li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    -->
     </div>
 	<div class="row padding-top padding-bottom">
-		<div class="col-md-1"></div>
-		<div class="col-md-11 padding-none">
+		<div class="col-md-12 text-center">
 			<a href="{{url_for('newBrewery', country_id=country.id, region_id=region.id)}}">
-				<button class="btn btn-default new-brewery">
-					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span> Add a Brewery in {{region.name}}
+				<button class="btn_success">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Brewery in {{region.name}}
 				</button>
 			</a>
 		</div>
-		<div class="col-md-7"></div>
 	</div>
-	<div class="breweries">
+	<div class="padding">
         {% for brewery in breweries %}
-        <div class="brewery">
-            <a href = "{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                        <div class="col-md-10 list">
-                            <h4>{{brewery.name}}</h4>
-                        </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </a>
+        <div class="row">
+            <div class="col-md-3 image-box text-center">
+                <img src="/{{brewery.image}}" height="auto" width="100">
+            </div>
+            <div class="col-md-8 details-box">
+                <a href = "{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+                    <h4>{{brewery.name}}</h4>
+                </a>
+            </div>
         </div>
         {% endfor %}
     </div>

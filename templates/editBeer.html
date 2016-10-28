@@ -2,32 +2,63 @@
 {% block content %}
 {% include "header.html" %}
 <div class="container-fluid background-pages">
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>Edit Beer</h1>
+	<div class="row">
+		<div class="col-md-12">
+            <div class="col-md-6 text-center brewery-details border">
+                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}">{{brewery.name}}dd</a></h5>
+            </div>
+            <div class="col-md-6 text-center brewery-details">
+                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}">{{region.name}}</a></h5>
+            </div>
+            <div class="col-md-12 text-center padding">
+			    <h2>Edit beer</h2>
+            </div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-6 col-md-offset-1 padding-top">
+		<div class="col-md-12 col-md-offset-2">
 			<form action="{{ url_for('editBeer', country_id=country.id, region_id = region.id, brewery_id=brewery.id, beer_id=beer.id)}}" method = "post">
-				<div class="form-group">
-					<label for="name">Name:</label>
-					<input type ="text" class="form-control" name="name" value="{{beer.name}}">
-					<label for="style">Style:</label>
-					<input type ="text" class="form-control" name="style" value="{{beer.style}}">
-					<label for="abv">ABV:</label>
-					<input type ="text" class="form-control" name="abv" value="{{beer.abv}}">
-					<label for="ibu">IBU:</label>
-					<input type ="text" class="form-control" name="ibu" value="{{beer.ibu}}">
-					<div class="padding-bottom"></div>
-					<button type="submit" class="btn btn-default" id="submit">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Save</button>
-				</div>
-			</form>
-        <a href="{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
-		    <button class="btn btn-default delete">
-			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
-        </a>
+				<div class="form-group row text-center">
+                    <div class="col-md-12 padding-xs">
+                        <div class="col-md-1">
+                            <label for="name">Name:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type ="text" class="form-control" name="name" value="{{beer.name}}">
+                        </div>
+                    </div>
+                    <div class="col-md-12 padding-xs">
+                        <div class="col-md-1">
+                            <label for="style">Style:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type ="text" class="form-control" name="style" value="{{beer.style}}">
+                        </div>
+                    </div>
+                    <div class="col-md-12 padding-xs">
+                        <div class="col-md-1">
+                            <label for="abv">ABV:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type ="text" class="form-control" name="abv" value="{{beer.abv}}">
+                        </div>
+                    </div>
+                    <div class="col-md-12 padding-xs">
+                        <div class="col-md-1">
+                            <label for="ibu">IBU:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type ="text" class="form-control" name="ibu" value="{{beer.ibu}}">	
+                        </div>
+                    </div>
+                </div>
+            </form>
+          <button type="submit" class="btn_success padding-top" id="submit">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
+                    <a href="{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+		            <button class="btn_danger padding-top">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+                    </a>
    		</div>
     </div>
 </div>
