@@ -9,7 +9,7 @@
         <button class="btn btn-default delete" id="submit" type="submit">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Delete</button>
     </form>
-    <a href="{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+    <a href="{{url_for('beerDetails', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
         <button class="btn btn-default delete">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Cancel</button>
     </a>

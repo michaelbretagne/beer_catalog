@@ -1,27 +1,23 @@
-{% extends "main.html" %}
-{% block content %}
-{% include "header.html" %}
+{% extends "main.html" %} {% block content %} {% include "header.html" %}
 <div class="container-fluid background-pages">
-	<div class="row">
-		<div class="col-md-8">
+    <div class="row">
+        <div class="col-md-8">
             <div class="col-md-8 text-center brewery-details border">
-                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}">{{brewery.name}}dd</a></h5>
+                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{brewery.name}}</b></a></h5>
             </div>
             <div class="col-md-4 text-center brewery-details">
-                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}">{{region.name}}</a></h5>
+                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}"><b>{{region.name}}</b></a></h5>
             </div>
             <div class="col-md-12 text-center padding">
-			    <h2>{{ beer.name }}</h2>
+                <h2><b>{{ beer.name }}</b></h2>
             </div>
-		</div>
-		<div class="col-md-3 text-center">
-<!--
-		  
--->
-		</div>
-	
+        </div>
+        <div class="col-md-3 text-center">
+            <!--
 
-<!--
+-->
+        </div>
+        <!--
     <div class="flash">
                   {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -36,35 +32,38 @@
     </div>
 -->
     </div>
-	<div class="row padding-top padding-bottom">
-		<div class="col-md-8 text-center">
-		    <a href="{{url_for('editBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
-				<button class="btn_success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Beer
-				</button>
-			</a>
-			<a href="{{url_for('deleteBeer', country_id = country.id , region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
-				<button class="btn_danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Beer
-				</button>
-			</a>
-		</div>
-	</div>
+    <div class="row padding-top padding-bottom">
+        <div class="col-md-8 text-center">
+            <a href="{{url_for('editBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
+                <button class="btn_success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Beer
+                </button>
+            </a>
+            <a href="{{url_for('deleteBeer', country_id = country.id , region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
+                <button class="btn_danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Beer
+                </button>
+            </a>
+        </div>
+    </div>
     <div class="row list">
         <div class="col-md-4 text-center padding">
             <img src="/{{beer.image}}" height="auto" width="150">
-            <form action="#" method = "post">
+            <form action="#" method="post">
                 <div class="form-group">
-                    <label for="input-2" class="control-label"><br>Rate This Beer</label>
+                    <label for="input-2" class="control-label">
+                        <br>Rate This Beer</label>
                     <input id="input-2" name="input-2" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" data-size="xxs" data-show-caption="true" value="">
                     <button class="btn_success" type="submit">
-                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Rate </button>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Rate </button>
                 </div>
             </form>
         </div>
         <div class="col-md-8 padding">
-            <p>Style: {{beer.style}}</p>
-            <p>ABV: {{beer.abv}}%</p>
-            <p>IBU: {{beer.ibu}}</p>
-            <p><br>Description:<br>{{beer.description}}</p>
+            <p><b>Style:</b> {{beer.style}}</p>
+            <p><b>ABV:</b> {{beer.abv}}%</p>
+            <p><b>IBU:</b> {{beer.ibu}}</p>
+            <p>
+                <br><b><u>Description:</u></b>
+                <br>{{beer.description}}</p>
         </div>
     </div>
 </div>
