@@ -273,14 +273,9 @@ def mainPage():
 def beerStyle(style):
     if 'username' not in login_session:
         return redirect('/login')
+
+    # Get all the beers by the style previoulsy selected
     beers = session.query(Beer).filter_by(style=style).all()
-
-    # top_beers = session.query(Rating, (func.avg(Rating.num_of_stars).label("avg"))).order_by(desc("avg")).all()
-    # for top in top_beers:
-    #     print top[0].beer_id
-
-    # render_template(....  , top_beers=top_beers
-
 
     if beers:
         countries = []
@@ -306,7 +301,18 @@ def beerStyle(style):
                 stars = 0
             avg_stars.append(stars)
 
-    return render_template('beerStyle.html', beers=beers, style=style, num_ratings=num_ratings, avg_stars=avg_stars, countries=countries, regions=regions, breweries=breweries)
+    # Get the top rated beers
+    all_rated_beers = session.query(Beer).join(Rating).filter(Beer.id==Rating.beer_id).all()
+    avg_beers_stars = []
+
+    for beer in all_rated_beers:
+        avg_beer= session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
+        beer_detail = [beer.image, beer.name, beer.style, avg_beer]
+        avg_beers_stars.append(beer_detail)
+
+    top_beers=sorted(avg_beers_stars, reverse=True)
+
+    return render_template('beerStyle.html', top_beers=top_beers, beers=beers, style=style, num_ratings=num_ratings, avg_stars=avg_stars, countries=countries, regions=regions, breweries=breweries)
 
 
 @app.route('/country/')
@@ -504,7 +510,7 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     beer = session.query(Beer).filter_by(id=beer_id).one()
     rating = session.query(Rating).filter_by(beer_id=beer_id).all()
-    print rating
+
     beer_creator = getUserInfo(beer.user_id)
     if rating:
         rated_by = session.query(Rating.user_id).filter_by(beer_id=beer_id).all()[0][0]
