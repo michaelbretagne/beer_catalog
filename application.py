@@ -262,13 +262,21 @@ def gdisconnect():
         return response
 
 
-# Show all the country
-@app.route('/')
-def mainPage():
-    regions = session.query(Region).order_by(asc(Region.name)).all()
-    styles = session.query(Beer.style).group_by(Beer.style).order_by(asc(Beer.style)).all()
-    return render_template('home.html', regions=regions, styles=styles)
 
+
+
+# Path of the uploaded images
+UPLOAD_FOLDER = 'static/img/uploaded_images'
+# Extensions allowed for images
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Function to check if the extension of image is valid
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+# Show all the beers selected by style and show the top 5 rated of all beers in the db
 @app.route('/style/<style>/', methods=['GET', 'POST'])
 def beerStyle(style):
     if 'username' not in login_session:
@@ -284,19 +292,25 @@ def beerStyle(style):
         num_ratings = []
         avg_stars = []
         for beer in beers:
+            # Insert in a list the id of the country
             country = session.query(Country.id).filter_by(id=beer.country_id).one()[0]
             countries.append(country)
 
+            # Insert in a list the id of the region
             region = session.query(Region.id).filter_by(id=beer.region_id).one()[0]
             regions.append(region)
 
+            # Insert in a list the id of the brewery
             brewery = session.query(Brewery.id).filter_by(id=beer.brewery_id).one()[0]
             breweries.append(brewery)
 
+            # Insert in a list the id of the beer
             ratings = session.query(Rating.num_of_stars).filter_by(beer_id=beer.id).count()
             num_ratings.append(ratings)
 
+            # Insert in a list the average numbers of stars
             stars = session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
+            # If there is no rating the value to append into the list should be 0
             if stars == None:
                 stars = 0
             avg_stars.append(stars)
@@ -306,19 +320,29 @@ def beerStyle(style):
     avg_beers_stars = []
 
     for beer in all_rated_beers:
+        # Get the average numbers of stars for each beer
         avg_beer= session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
-        beer_detail = [beer.image, beer.name, beer.style, avg_beer]
+        # Insert the details of the beer into a list
+        beer_detail = [beer.image, beer.name, beer.style, avg_beer, beer.country_id, beer.region_id, beer.brewery_id, beer.id]
         avg_beers_stars.append(beer_detail)
 
-    top_beers=sorted(avg_beers_stars, reverse=True)
+    # Get the avg_beer key to use it for sorting the avg_beers_stars list
+    def getKey(item):
+        return item[3]
+    # Get the 5 top rated beers
+    top_beers=sorted(avg_beers_stars, key=getKey, reverse=True)[:5]
 
     return render_template('beerStyle.html', top_beers=top_beers, beers=beers, style=style, num_ratings=num_ratings, avg_stars=avg_stars, countries=countries, regions=regions, breweries=breweries)
 
 
+# Show the home page with all the countries, selections by styles and regions
+@app.route('/')
 @app.route('/country/')
-def showCountry():
+def mainPage():
     countries = session.query(Country).order_by(asc(Country.name)).all()
-    return render_template('country.html', countries=countries)
+    regions = session.query(Region).order_by(asc(Region.name)).all()
+    styles = session.query(Beer.style).group_by(Beer.style).order_by(asc(Beer.style)).all()
+    return render_template('home.html', countries=countries, regions=regions, styles=styles)
 
 
 # Show all the region of a country
@@ -534,17 +558,7 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
 
 
 
-# Path of the uploaded images
-UPLOAD_FOLDER = 'static/uploads'
-# Extensions allowed for images
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Function to check if the extension of image is valid
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 
