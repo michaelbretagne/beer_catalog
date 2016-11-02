@@ -30,6 +30,7 @@ body {
 /*    background-color: #262930;*/
     background-image: url(../img/ardoise-3.jpg);
     background-attachment: fixed;
+    background-size: cover;
 }
 
 .row {
@@ -56,12 +57,20 @@ a:hover {
     text-decoration: none;
 }
 
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
 h1, h2, h3, h4, h5 {
     color: #080808;
 }
 
 hr {
-    color: #e0e0e0;
+    border-top: 1px solid #e0e0e0;
 }
 
 label {
@@ -69,6 +78,24 @@ label {
 }
 
 /*---------Button----------*/
+
+.btn_default {
+    background-color: transparent;
+    border-color: #555555;
+    border-radius: 5px;
+    color: #5e5e5e;
+    padding: 8px 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 5px 5px;
+    transition-duration: 0.4s;
+}
+
+.btn_default:hover {
+    background-color: #555555;
+    color: white;
+}
 
 .btn_success {
     background-color: transparent;
@@ -116,7 +143,6 @@ label {
 
 .padding-bottom {
     padding-bottom: 30px;
-    border-bottom: solid 1px #e0e0e0;
 }
 
 .padding-xs {
@@ -155,7 +181,11 @@ label {
     overflow-x: hidden;
 }
 
-
+/*---------Flash message---------*/
+.flash {
+    background-color: #4caf50;
+    padding: 0 auto;
+}
 
 /*---------background---------*/
 
@@ -176,14 +206,6 @@ label {
     padding-bottom: 20px;
     border-radius: 4px;
 }
-
-/*
-.background-style {
-    width: 100%;
-    min-height: 600px;
-    border-radius: 4px;
-}
-*/
 
 /*---------Map-----------*/
 
@@ -215,6 +237,23 @@ label {
     border: solid 1px #e0e0e0;
     border-radius: 4px;
     margin: 0 -10px 0 10px;
+}
+
+.user_box {
+/*    border: solid 1px #000;*/
+    border-radius: 4px;
+    height: 185px;
+}
+
+/*----------Creator-----------*/
+
+.creator {
+    height: 90%;
+    margin: 15px;
+}
+
+img {
+    margin: 5px;
 }
 
 /*-------Brewery Deatils---------*/
