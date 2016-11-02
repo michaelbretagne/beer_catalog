@@ -2,23 +2,48 @@
 {% block content %}
 {% include "header.html" %}
 <div class="container-fluid background-pages">
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>New Brewery</h1>
-		</div>
-	</div>
 	<div class="row">
-		<div class="col-md-6 col-md-offset-1 padding-top">
-			<form action="#" method = "post">
-				<div class="form-group">
-					<label for="name">Name:</label>
-					<input type ="text" maxlength="50" class="form-control" name="name" placeholder="Name of the brewery">
-					<div class="padding-bottom"></div>
-					<button type="submit" class="btn btn-default" id="submit">
-					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Create</button>
-				</div>
-			</form>
-		</div>
+	    <div class="col-md-12">
+            <div class="col-md-6 text-center brewery-details border">
+                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}"><b>{{country.name}}</b></a></h5>
+            </div>
+            <div class="col-md-6 text-center brewery-details">
+                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{region.name}}</b></a></h5>
+            </div>
+            <div class="col-md-12 text-center padding">
+                <h2>New Brewery</h2>
+            </div>
+        </div>
+	</div>
+	<div class="row center_div padding-top">
+        <div class="col-md-12">
+            <form action="#"  method = "post" enctype = "multipart/form-data">
+                <div class="form-group row text-center margin">
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
+                        <div class="col-md-2">
+                            <label for="file">Image:</label>
+                        </div>
+                        <div class="col-md-7">
+                             <input type="file" name="file"/>
+                        </div>      
+                    </div>
+                    <div class="col-md-12 col-md-offset-1 padding-xs"> 
+                        <div class="col-md-2">    
+                            <label for="name">Name:</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type ="text" maxlength="50" class="form-control" name="name" placeholder="Name of the brewery">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn_success" id="submit">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Save</button>
+                    <a href="{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}">
+                        <button type="button" class="btn_danger delete">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+                    </a>
+                </div>
+            </form>
+        </div>
 	</div>
 </div>
 {% endblock %}

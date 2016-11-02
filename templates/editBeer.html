@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 text-center brewery-details border">
-                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{brewery.name}}</b></a></h5>
+                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{region.name}}</b></a></h5>
             </div>
             <div class="col-md-6 text-center brewery-details">
-                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}"><b>{{region.name}}</b></a></h5>
+                <h5><a href = "{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}"><b>{{brewery.name}}</b></a></h5>
             </div>
             <div class="col-md-12 text-center padding">
                 <h2><b>Edit beer</b></h2>
@@ -17,46 +17,55 @@
         <div class="col-md-12">
             <form action="{{ url_for('editBeer', country_id=country.id, region_id = region.id, brewery_id=brewery.id, beer_id=beer.id)}}" method="post">
                 <div class="form-group row text-center margin">
-                    <div class="col-md-12 padding-xs">
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
                         <div class="col-md-2">
                             <label for="name">Name:</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <input type="text" class="form-control" name="name" value="{{beer.name}}">
                         </div>
                     </div>
-                    <div class="col-md-12 padding-xs">
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
                         <div class="col-md-2">
                             <label for="style">Style:</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <input type="text" class="form-control" name="style" value="{{beer.style}}">
                         </div>
                     </div>
-                    <div class="col-md-12 padding-xs">
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
                         <div class="col-md-2">
                             <label for="abv">ABV:</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <input type="text" class="form-control" name="abv" value="{{beer.abv}}">
                         </div>
                     </div>
-                    <div class="col-md-12 padding-xs">
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
                         <div class="col-md-2">
                             <label for="ibu">IBU:</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <input type="text" class="form-control" name="ibu" value="{{beer.ibu}}">
                         </div>
                     </div>
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
+                        <div class="col-md-2"> 
+					        <label for="description">Description:</label>
+                        </div>
+                        <div class="col-md-7">
+                            <textarea rows="4" maxlength="700" class="form-control" name="description" value="{{beer.description}}"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn_success padding-top" id="submit">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
+                    <a href="{{url_for('beerDetails', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
+                        <button type="button" class="btn_danger delete">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+                    </a>
                 </div>
             </form>
-            <button type="submit" class="btn_success padding-top" id="submit">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
-            <a href="{{url_for('beerDetails', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
-                <button class="btn_danger padding-top">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
-            </a>
+            
         </div>
     </div>
 </div>

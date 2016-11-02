@@ -1,57 +1,60 @@
 {% extends "main.html" %} {% block content %} {% include "header.html" %}
 <div class="container-fluid background-pages">
     <div class="row">
-        <div class="col-md-8">
-            <div class="col-md-6 text-center brewery-details border">
-                <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{region.name}}</b></a></h5>
+       <div class="col-md-9">
+            <div class="col-md-12">
+                <div class="col-md-6 text-center brewery-details border">
+                    <h5><a href="{{url_for('showRegion', country_id=country.id)}}"><b>{{country.name}}</b></a></h5>
+                </div>
+                <div class="col-md-6 text-center brewery-details">
+                    <h5><a href="{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{region.name}}</b></a></h5>
+                </div>
+                <div class="col-md-12 text-center padding">
+                    <h2><b>{{brewery.name}}</b></h2>
+                </div>
             </div>
-            <div class="col-md-6 text-center brewery-details">
-                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}"><b>{{country.name}}</b></a></h5>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="flash text-center div_center">
+                              {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <ul>
+                        {% for message in messages %}
+                            <li><strong>{{ message }}</strong></li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                    {% endwith %}
+                </div>
             </div>
-            <div class="col-md-12 text-center padding">
-                <h2><b>{{brewery.name}}</b></h2>
+            <div class="padding-top padding-bottom">
+                <div class="col-md-12 text-center">
+                    <a href="{{url_for('editBrewery', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+                        <button class="btn_success">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Brewery
+                        </button>
+                    </a>
+                    <a href="{{url_for('deleteBrewery', country_id = country.id , region_id=region.id, brewery_id=brewery.id)}}">
+                        <button class="btn_danger">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Brewery
+                        </button>
+                    </a>
+                    <a href="{{url_for('newBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+                        <button class="btn_success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Beer in {{brewery.name}}
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="col-md-3 text-center">
+        <div class="col-md-3 text-center user_box">
             <figure class="creator">
-                <img src="{{beer_creator.picture}}">
-                <figcaption>{{beer_creator.name}}</figcaption>
+                <img src="{{brewery_creator.picture}}" class="img-circle user_details" width="90">
+                <figcaption>Brewery added<br>by<br>{{brewery_creator.name}}</figcaption>
             </figure>
         </div>
     </div>
-    <!--
-    <div class="flash">
-                  {% with messages = get_flashed_messages() %}
-          {% if messages %}
-
-            <ul>
-            {% for message in messages %}
-                <li> <strong> {{ message }} </strong> </li>
-            {% endfor %}
-            </ul>
-            {% endif %}
-        {% endwith %}
-    </div>
--->
-    <div class="row padding-top padding-bottom">
-        <div class="col-md-8 text-center">
-            <a href="{{url_for('editBrewery', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
-                <button class="btn_success">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit Brewery
-                </button>
-            </a>
-            <a href="{{url_for('deleteBrewery', country_id = country.id , region_id=region.id, brewery_id=brewery.id)}}">
-                <button class="btn_danger">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete Brewery
-                </button>
-            </a>
-            <a href="{{url_for('newBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
-                <button class="btn_success">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a Beer in {{brewery.name}}
-                </button>
-            </a>
-        </div>
-    </div>
+    <hr>    
     <div class="padding"></div>
     {% for beer in beers %}
     <div class="row">

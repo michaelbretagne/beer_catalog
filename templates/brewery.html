@@ -3,36 +3,26 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-12 text-center brewery-details">
-                <h5><a href = "{{url_for('showRegion', country_id=country.id)}}"><b>{{country.name}}</b></a></h5>
+                <h5><a href="{{url_for('showRegion', country_id=country.id)}}"><b>{{country.name}}</b></a></h5>
             </div>
-            <div class="col-md-3"></div>
-            <div class="col-md-3 text-center padding">
-                <img class="flags" src="/{{region.flag}}" height="auto" width="60">
-            </div>
-            <div class="col-md-3 padding">
+            <div class="col-md-12 padding text-center">
                 <h2><b>{{region.name}}</b></h2>
             </div>
-            <div class="col-md-3"></div>
         </div>
-        <div class="col-md-3 text-center">
-            <!--
-
-
--->
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="flash text-center">
+                          {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul>
+                    {% for message in messages %}
+                        <li><strong>{{ message }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
         </div>
-        <!--
-        <div class="flash">
-                      {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                <ul>
-                {% for message in messages %}
-                    <li> <strong> {{ message }} </strong> </li>
-                {% endfor %}
-                </ul>
-                {% endif %}
-            {% endwith %}
-        </div>
-    -->
     </div>
     <div class="row padding-top padding-bottom">
         <div class="col-md-12 text-center">
@@ -46,15 +36,17 @@
     <div class="padding">
         {% for brewery in breweries %}
         <div class="row">
+            <a href="{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
             <div class="col-md-3 image-box text-center">
                 <img src="/{{brewery.image}}" height="auto" width="100">
             </div>
             <div class="col-md-8 details-box">
-                <a href="{{url_for('showBeer', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+               <div class="padding"></div>
                     <h4>{{brewery.name}}</h4>
-                </a>
             </div>
+            </a>
         </div>
+        <hr>
         {% endfor %}
     </div>
 </div>
