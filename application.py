@@ -45,7 +45,7 @@ def showLogin():
     # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
-
+# Facebook login
 @app.route('/fbconnect', methods=['POST'])
 def fbconnect():
     if request.args.get('state') != login_session['state']:
@@ -112,6 +112,7 @@ def fbconnect():
     return output
 
 
+# Facebook logout
 @app.route('/fbdisconnect')
 def fbdisconnect():
     facebook_id = login_session['facebook_id']
@@ -122,7 +123,7 @@ def fbdisconnect():
     result = h.request(url, 'DELETE')[1]
     return "you have been logged out"
 
-
+# Google+ login
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
@@ -204,18 +205,61 @@ def gconnect():
     login_session['user_id'] = user_id
 
     output = ''
-    output += '<h1>Welcome, '
+    output = ''
+    output += '<h3 style = "color: #fff">'
+    output += ' Welcome, '
     output += login_session['username']
-    output += '!</h1>'
+    output += '!</h3>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("you are now logged in as %s" % login_session['username'])
-    print "done!"
+    output += ' " style = "width: 100px; height: 100px;border-radius: 50px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    flash("You are now logged in as %s" % login_session['username'])
     return output
 
-# User Helper Functions
+# Google+ logout - Revoke a current user's token and reset their login_session
+@app.route('/gdisconnect')
+def gdisconnect():
+    # Only disconnect a connected user.
+    credentials = login_session.get('credentials')
+    if credentials is None:
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    access_token = credentials.access_token
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    if result['status'] != '200':
+        # For whatever reason, the given token was invalid.
+        response = make_response(
+            json.dumps('Failed to revoke token for given user.'), 400)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
+# Disconnect based on provider
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            del login_session['gplus_id']
+            del login_session['access_token']
+        if login_session['provider'] == 'facebook':
+            fbdisconnect()
+            del login_session['facebook_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['user_id']
+        del login_session['provider']
+        flash("You have successfully been logged out.")
+        return redirect(url_for('mainPage'))
+    else:
+        flash("You were not logged in")
+        return redirect(url_for('mainPage'))
+
+# User Helper Functions
 
 def createUser(login_session):
     newUser = User(name=login_session['username'], email=login_session[
@@ -238,32 +282,6 @@ def getUserID(email):
     except:
         return None
 
-# DISCONNECT - Revoke a current user's token and reset their login_session
-
-
-@app.route('/gdisconnect')
-def gdisconnect():
-    # Only disconnect a connected user.
-    credentials = login_session.get('credentials')
-    if credentials is None:
-        response = make_response(
-            json.dumps('Current user not connected.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    access_token = credentials.access_token
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
-    h = httplib2.Http()
-    result = h.request(url, 'GET')[0]
-    if result['status'] != '200':
-        # For whatever reason, the given token was invalid.
-        response = make_response(
-            json.dumps('Failed to revoke token for given user.'), 400)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-
-
-
 
 # Path of the uploaded images
 UPLOAD_FOLDER = 'static/img/uploaded_images'
@@ -276,6 +294,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
 # Show all the beers selected by style and show the top 5 rated of all beers in the db
 @app.route('/style/<style>/', methods=['GET', 'POST'])
 def beerStyle(style):
@@ -367,13 +387,25 @@ def showBrewery(country_id, region_id):
 # Create a new brewery
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/new/', methods=['GET', 'POST'])
 def newBrewery(country_id, region_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     user_id = login_session['user_id']
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
+
+    if 'username' not in login_session:
+        flash('You need to be logged in to add a new brewery')
+        return redirect('/login')
+
     if request.method == 'POST':
-        newBrewery = Brewery(name=request.form['name'], country_id=country_id, region_id=region_id, user_id=user_id)
+        file = request.files['file']
+        # check if the image has allowed extension
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image = UPLOAD_FOLDER + "/" + filename
+        else:
+            image = UPLOAD_FOLDER + "/" + "not_available.jpg"
+
+        newBrewery = Brewery(image=image, name=request.form['name'], country_id=country_id, region_id=region_id, user_id=user_id)
         session.add(newBrewery)
         session.commit()
         flash('New Brewery %s Successfully Created' % (newBrewery.name))
@@ -429,6 +461,7 @@ def showBeer(country_id, region_id, brewery_id):
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     brewery_creator = getUserInfo(brewery.user_id)
     beers = session.query(Beer).filter_by(brewery_id=brewery_id).all()
+    print brewery_creator.picture
 
     if beers:
         beer_creator = []
@@ -469,7 +502,7 @@ def newBeer(country_id, region_id, brewery_id):
             print image
 
         user_id = login_session['user_id']
-        newBeer = Beer(image=image, name=request.form['name'], style=request.form['style'], abv=request.form['abv'], ibu=request.form['ibu'], country_id=country_id, region_id=region_id, brewery_id=brewery_id, user_id=user_id)
+        newBeer = Beer(image=image, name=request.form['name'], style=request.form['style'], abv=request.form['abv'], ibu=request.form['ibu'], description=request.form['description'], country_id=country_id, region_id=region_id, brewery_id=brewery_id, user_id=user_id)
         session.add(newBeer)
         session.commit()
         flash('New Beer %s Successfully Created' % (newBeer.name))
@@ -497,6 +530,8 @@ def editBeer(country_id, region_id, brewery_id, beer_id):
             beerToEdit.abv = request.form['abv']
         if request.form['ibu']:
             beerToEdit.ibu = request.form['ibu']
+        if request.form['description']:
+            beerToEdit.description = request.form['description']
         session.add(beerToEdit)
         session.commit()
         flash('Beer Successfully Edited')
@@ -562,27 +597,7 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
 
 
 
-# Disconnect based on provider
-@app.route('/disconnect')
-def disconnect():
-    if 'provider' in login_session:
-        if login_session['provider'] == 'google':
-            gdisconnect()
-            del login_session['gplus_id']
-            del login_session['access_token']
-        if login_session['provider'] == 'facebook':
-            fbdisconnect()
-            del login_session['facebook_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-        del login_session['user_id']
-        del login_session['provider']
-        flash("You have successfully been logged out.")
-        return redirect(url_for('showCountry'))
-    else:
-        flash("You were not logged in")
-        return redirect(url_for('showCountry'))
+
 
 
 if __name__ == '__main__':
