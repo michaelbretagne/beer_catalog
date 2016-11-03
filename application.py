@@ -56,9 +56,9 @@ def fbconnect():
     print "access token received %s " % access_token
 
     app_id = json.loads(open('fb_client_secrets.json', 'r').read())[
-        'web']['app_id']
+        'facebook']['app_id']
     app_secret = json.loads(
-        open('fb_client_secrets.json', 'r').read())['web']['app_secret']
+        open('fb_client_secrets.json', 'r').read())['facebook']['app_secret']
     url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
         app_id, app_secret, access_token)
     h = httplib2.Http()
@@ -73,8 +73,8 @@ def fbconnect():
     url = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
-    # print "url sent for API access:%s"% url
-    # print "API JSON result: %s" % result
+    print "url sent for API access:%s"% url
+    print "API JSON result: %s" % result
     data = json.loads(result)
     login_session['provider'] = 'facebook'
     login_session['username'] = data["name"]
@@ -100,17 +100,15 @@ def fbconnect():
     login_session['user_id'] = user_id
 
     output = ''
-    output += '<h1>Welcome, '
+    output += '<h3 style = "color: #fff">'
+    output += ' Welcome, '
     output += login_session['username']
-
-    output += '!</h1>'
+    output += '!</h3>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-
-    flash("Now logged in as %s" % login_session['username'])
+    output += ' " style = "width: 100px; height: 100px;border-radius: 50px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    flash("You are now logged in as %s" % login_session['username'])
     return output
-
 
 # Facebook logout
 @app.route('/fbdisconnect')
@@ -281,6 +279,37 @@ def getUserID(email):
         return user.id
     except:
         return None
+
+
+# JSON APIs to view countries information
+@app.route('/country/JSON')
+def countriesJSON():
+    countries = session.query(Country).all()
+    return jsonify(Country=[c.serialize for c in countries])
+
+# JSON APIs to view regions information
+@app.route('/country/<int:country_id>/region/JSON')
+def regionJSON(country_id):
+    country = session.query(Country).filter_by(id=country_id).one()
+    regions = session.query(Region).filter_by(country_id=country_id).all()
+    return jsonify(Region=[r.serialize for r in regions])
+
+# JSON APIs to view breweries information
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/JSON')
+def breweryJSON(country_id, region_id):
+    country = session.query(Country).filter_by(id=country_id).one()
+    region = session.query(Region).filter_by(id=region_id).one()
+    breweries = session.query(Brewery).filter_by(region_id=region_id).all()
+    return jsonify(Brewery=[b.serialize for b in breweries])
+
+# JSON APIs to view beers information
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/JSON')
+def beerJSON(country_id, region_id, brewery_id):
+    country = session.query(Country).filter_by(id=country_id).one()
+    region = session.query(Region).filter_by(id=region_id).one()
+    brewery = session.query(Brewery).filter_by(id=brewery_id).one()
+    beers = session.query(Beer).filter_by(brewery_id=brewery_id).all()
+    return jsonify(Beer=[beer.serialize for beer in beers])
 
 
 # Path of the uploaded images
