@@ -99,6 +99,7 @@ def fbconnect():
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
 
+    # Display username and picture to the login page while redirecting
     output = ''
     output += '<h3 style = "color: #fff">'
     output += ' Welcome, '
@@ -193,15 +194,16 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
-    # ADD PROVIDER TO LOGIN SESSION
+    # Add provider to login session
     login_session['provider'] = 'google'
 
-    # see if user exists, if it doesn't make a new one
+    # See if user exists, if it doesn't make a new one
     user_id = getUserID(data["email"])
     if not user_id:
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
 
+    # Display username and picture of the user to the login page while redirecting
     output = ''
     output = ''
     output += '<h3 style = "color: #fff">'
@@ -258,7 +260,6 @@ def disconnect():
         return redirect(url_for('mainPage'))
 
 # User Helper Functions
-
 def createUser(login_session):
     newUser = User(name=login_session['username'], email=login_session[
                    'email'], picture=login_session['picture'])
@@ -267,11 +268,9 @@ def createUser(login_session):
     user = session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
-
 def getUserInfo(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user
-
 
 def getUserID(email):
     try:
@@ -325,66 +324,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-# Show all the beers selected by style and show the top 5 rated of all beers in the db
-@app.route('/style/<style>/', methods=['GET', 'POST'])
-def beerStyle(style):
-    if 'username' not in login_session:
-        return redirect('/login')
-
-    # Get all the beers by the style previoulsy selected
-    beers = session.query(Beer).filter_by(style=style).all()
-
-    if beers:
-        countries = []
-        regions = []
-        breweries = []
-        num_ratings = []
-        avg_stars = []
-        for beer in beers:
-            # Insert in a list the id of the country
-            country = session.query(Country.id).filter_by(id=beer.country_id).one()[0]
-            countries.append(country)
-
-            # Insert in a list the id of the region
-            region = session.query(Region.id).filter_by(id=beer.region_id).one()[0]
-            regions.append(region)
-
-            # Insert in a list the id of the brewery
-            brewery = session.query(Brewery.id).filter_by(id=beer.brewery_id).one()[0]
-            breweries.append(brewery)
-
-            # Insert in a list the id of the beer
-            ratings = session.query(Rating.num_of_stars).filter_by(beer_id=beer.id).count()
-            num_ratings.append(ratings)
-
-            # Insert in a list the average numbers of stars
-            stars = session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
-            # If there is no rating the value to append into the list should be 0
-            if stars == None:
-                stars = 0
-            avg_stars.append(stars)
-
-    # Get the top rated beers
-    all_rated_beers = session.query(Beer).join(Rating).filter(Beer.id==Rating.beer_id).all()
-    avg_beers_stars = []
-
-    for beer in all_rated_beers:
-        # Get the average numbers of stars for each beer
-        avg_beer= session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
-        # Insert the details of the beer into a list
-        beer_detail = [beer.image, beer.name, beer.style, avg_beer, beer.country_id, beer.region_id, beer.brewery_id, beer.id]
-        avg_beers_stars.append(beer_detail)
-
-    # Get the avg_beer key to use it for sorting the avg_beers_stars list
-    def getKey(item):
-        return item[3]
-    # Get the 5 top rated beers
-    top_beers=sorted(avg_beers_stars, key=getKey, reverse=True)[:5]
-
-    return render_template('beerStyle.html', top_beers=top_beers, beers=beers, style=style, num_ratings=num_ratings, avg_stars=avg_stars, countries=countries, regions=regions, breweries=breweries)
-
-
-# Show the home page with all the countries, selections by styles and regions
+# Show the home page with all the countries, selections by styles or regions
 @app.route('/')
 @app.route('/country/')
 def mainPage():
@@ -416,13 +356,13 @@ def showBrewery(country_id, region_id):
 # Create a new brewery
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/new/', methods=['GET', 'POST'])
 def newBrewery(country_id, region_id):
-    user_id = login_session['user_id']
-    country = session.query(Country).filter_by(id=country_id).one()
-    region = session.query(Region).filter_by(id=region_id).one()
-
     if 'username' not in login_session:
         flash('You need to be logged in to add a new brewery')
         return redirect('/login')
+
+    user_id = login_session['user_id']
+    country = session.query(Country).filter_by(id=country_id).one()
+    region = session.query(Region).filter_by(id=region_id).one()
 
     if request.method == 'POST':
         file = request.files['file']
@@ -434,6 +374,7 @@ def newBrewery(country_id, region_id):
         else:
             image = UPLOAD_FOLDER + "/" + "not_available.jpg"
 
+        # Add the details of a new brewery into the database
         newBrewery = Brewery(image=image, name=request.form['name'], country_id=country_id, region_id=region_id, user_id=user_id)
         session.add(newBrewery)
         session.commit()
@@ -446,12 +387,18 @@ def newBrewery(country_id, region_id):
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/edit', methods=['GET', 'POST'])
 def editBrewery(country_id, region_id, brewery_id):
     if 'username' not in login_session:
+        flash('You need to be logged in to edit a new brewery')
         return redirect('/login')
+
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
     breweryToEdit = session.query(Brewery).filter_by(id=brewery_id).one()
+
+    # Check if the user is the one who created the brewery
     if login_session['user_id'] != breweryToEdit.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to edit this brewery.');}</script><body onload='myFunction()''>"
+        flash('You are not authorized to edit this brewery')
+        return redirect(url_for('showBrewery', country_id=country_id, region_id=region_id))
+
     if request.method == 'POST':
         if request.form['name']:
             breweryToEdit.name = request.form['name']
@@ -466,12 +413,18 @@ def editBrewery(country_id, region_id, brewery_id):
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/delete', methods=['GET', 'POST'])
 def deleteBrewery(country_id, region_id, brewery_id):
     if 'username' not in login_session:
+        flash('You need to be logged in to delete a new brewery')
         return redirect('/login')
+
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
     breweryToDelete = session.query(Brewery).filter_by(id=brewery_id).one()
+
+    # Check if the user is the one who created the brewery
     if login_session['user_id'] != breweryToDelete.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to delete this brewery.');}</script><body onload='myFunction()''>"
+        flash('You are not authorized to delete this brewery')
+        return redirect(url_for('showBrewery', country_id=country_id, region_id=region_id))
+
     if request.method == 'POST':
         session.delete(breweryToDelete)
         session.commit()
@@ -490,21 +443,23 @@ def showBeer(country_id, region_id, brewery_id):
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     brewery_creator = getUserInfo(brewery.user_id)
     beers = session.query(Beer).filter_by(brewery_id=brewery_id).all()
-    print brewery_creator.picture
 
     if beers:
         beer_creator = []
         num_ratings = []
         avg_stars = []
         for beer in beers:
+            # Get the creator of the beer and add it to the beer_creator list
             creator = getUserInfo(beer.user_id).name
+            beer_creator.append(creator)
+            # Get the number of rating per beer and add it to the num_ratings list
             ratings = session.query(Rating.num_of_stars).filter_by(beer_id=beer.id).count()
-            stars = session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
             num_ratings.append(ratings)
+            # Get the average number of stars per beer and add it to the avg_stars list
+            stars = session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
             if stars == None:
                 stars = 0
             avg_stars.append(stars)
-            beer_creator.append(creator)
         return render_template('beer.html', country=country, region=region, brewery=brewery, beers=beers, brewery_creator=brewery_creator, beer_creator=beer_creator, num_ratings=num_ratings, avg_stars=avg_stars)
     else:
         return render_template('beer.html', country=country, region=region, brewery=brewery, beers="", brewery_creator=brewery_creator, beer_creator="")
@@ -514,12 +469,15 @@ def showBeer(country_id, region_id, brewery_id):
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/new/', methods=['GET', 'POST'])
 def newBeer(country_id, region_id, brewery_id):
     if 'username' not in login_session:
+        flash('You need to be logged in to add a new beer')
         return redirect('/login')
+
+    user_id = login_session['user_id']
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
-    if request.method == 'POST':
 
+    if request.method == 'POST':
         file = request.files['file']
         # check if the image has allowed extension
         if file and allowed_file(file.filename):
@@ -530,7 +488,7 @@ def newBeer(country_id, region_id, brewery_id):
             image = UPLOAD_FOLDER + "/" + "not_available.jpg"
             print image
 
-        user_id = login_session['user_id']
+        # Add the details of a new brewery into the database
         newBeer = Beer(image=image, name=request.form['name'], style=request.form['style'], abv=request.form['abv'], ibu=request.form['ibu'], description=request.form['description'], country_id=country_id, region_id=region_id, brewery_id=brewery_id, user_id=user_id)
         session.add(newBeer)
         session.commit()
@@ -543,14 +501,21 @@ def newBeer(country_id, region_id, brewery_id):
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/edit', methods=['GET', 'POST'])
 def editBeer(country_id, region_id, brewery_id, beer_id):
     if 'username' not in login_session:
+        flash('You need to be logged in to edit a beer')
         return redirect('/login')
+
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     beerToEdit = session.query(Beer).filter_by(id=beer_id).one()
+
+    # Check if the user is the one who created the beer
     if login_session['user_id'] != beerToEdit.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to edit this beer.');}</script><body onload='myFunction()''>"
+        flash('You are not authorized to edit this beer')
+        return redirect(url_for('showBeer', country_id=country_id, region_id=region_id, brewery_id=brewery_id))
+
     if request.method == 'POST':
+        # Get the details of the beer and insert it into the database
         if request.form['name']:
             beerToEdit.name = request.form['name']
         if request.form['style']:
@@ -572,13 +537,19 @@ def editBeer(country_id, region_id, brewery_id, beer_id):
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/delete', methods=['GET', 'POST'])
 def deleteBeer(country_id, region_id, brewery_id, beer_id):
     if 'username' not in login_session:
+        flash('You need to be logged in to delete a beer')
         return redirect('/login')
+
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     beerToDelete = session.query(Beer).filter_by(id=beer_id).one()
+
+    # Check if the user is the one who created the beer
     if login_session['user_id'] != beerToDelete.user_id:
-        return "<script>function myFunction() {alert('You are not authorized to delete this beer.');}</script><body onload='myFunction()''>"
+        flash('You are not authorized to delete this beer')
+        return redirect(url_for('showBeer', country_id=country_id, region_id=region_id, brewery_id=brewery_id))
+
     if request.method == 'POST':
         session.delete(beerToDelete)
         session.commit()
@@ -592,20 +563,25 @@ def deleteBeer(country_id, region_id, brewery_id, beer_id):
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/details', methods=['GET', 'POST'])
 def beerDetails(country_id, region_id, brewery_id, beer_id):
     if 'username' not in login_session:
+        flash('You need to be logged in to see the details of a beer')
         return redirect('/login')
+
+    user_id = login_session['user_id']
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
     brewery = session.query(Brewery).filter_by(id=brewery_id).one()
     beer = session.query(Beer).filter_by(id=beer_id).one()
     rating = session.query(Rating).filter_by(beer_id=beer_id).all()
-
     beer_creator = getUserInfo(beer.user_id)
+
+    # Get the user who rated the beer.
     if rating:
         rated_by = session.query(Rating.user_id).filter_by(beer_id=beer_id).all()[0][0]
     else:
         rated_by = None
+
     if request.method == 'POST':
-        user_id = login_session['user_id']
+        # Check if the user have not already rated the beer
         if user_id != rated_by:
             newRating = Rating(num_of_stars=request.form['input-2'], beer_id=beer_id, user_id=user_id)
             session.add(newRating)
@@ -617,16 +593,61 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
     return render_template('beerDetails.html', country=country, region=region, brewery=brewery, beer=beer, beer_creator=beer_creator)
 
 
+# Show all the beers selected by style and show the top 5 rated of all beers in the db
+@app.route('/style/<style>/', methods=['GET', 'POST'])
+def beerStyle(style):
+    # Get all the beers by the style previoulsy selected
+    beers = session.query(Beer).filter_by(style=style).all()
 
+    # Style section
+    if beers:
+        countries = []
+        regions = []
+        breweries = []
+        num_ratings = []
+        avg_stars = []
+        for beer in beers:
+            # Insert in a list the id of the country
+            country = session.query(Country.id).filter_by(id=beer.country_id).one()[0]
+            countries.append(country)
 
+            # Insert in a list the id of the region
+            region = session.query(Region.id).filter_by(id=beer.region_id).one()[0]
+            regions.append(region)
 
+            # Insert in a list the id of the brewery
+            brewery = session.query(Brewery.id).filter_by(id=beer.brewery_id).one()[0]
+            breweries.append(brewery)
 
+            # Insert in a list the number of rating for a beer
+            ratings = session.query(Rating.num_of_stars).filter_by(beer_id=beer.id).count()
+            num_ratings.append(ratings)
 
+            # Insert in a list the average numbers of stars for a beer
+            stars = session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
+            if stars == None:
+                stars = 0
+            avg_stars.append(stars)
 
+    # Top beer section
+    # Get the top rated beers
+    all_rated_beers = session.query(Beer).join(Rating).filter(Beer.id==Rating.beer_id).all()
+    avg_beers_stars = []
 
+    for beer in all_rated_beers:
+        # Get the average numbers of stars for each beer
+        avg_beer= session.query(func.avg(Rating.num_of_stars)).filter_by(beer_id=beer.id).all()[0][0]
+        # Insert the details of the beer into a list
+        beer_detail = [beer.image, beer.name, beer.style, avg_beer, beer.country_id, beer.region_id, beer.brewery_id, beer.id]
+        avg_beers_stars.append(beer_detail)
 
+    # Get the avg_beer key to use it for sorting the avg_beers_stars list
+    def getKey(item):
+        return item[3]
+    # Get the 5 top rated beers
+    top_beers=sorted(avg_beers_stars, key=getKey, reverse=True)[:5]
 
-
+    return render_template('beerStyle.html', top_beers=top_beers, beers=beers, style=style, num_ratings=num_ratings, avg_stars=avg_stars, countries=countries, regions=regions, breweries=breweries)
 
 
 if __name__ == '__main__':
