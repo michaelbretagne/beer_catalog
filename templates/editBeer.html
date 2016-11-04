@@ -13,12 +13,43 @@
             </div>
         </div>
     </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="flash text-center">
+                      {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li><strong>{{ message }}</strong></li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
     <div class="row center_div">
         <div class="col-md-12">
-            <form action="{{ url_for('editBeer', country_id=country.id, region_id = region.id, brewery_id=brewery.id, beer_id=beer.id)}}" method="post">
+            <form action="{{ url_for('editBeer', country_id=country.id, region_id = region.id, brewery_id=brewery.id, beer_id=beer.id)}}" method="post" enctype="multipart/form-data">
                 <div class="form-group row text-center margin">
+                   <div class="col-md-12 col-md-offset-1 padding-xs">
+                      <div class="col-md-2 text-right">
+                          <img src="/{{beer.image}}" height="auto" width="40">
+                      </div>
+                      <div class="col-md-8 text-left">
+                           <button type="submit" name="submit" value="deleteBeerImage" class="btn_deleteImage">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete current image</button>
+                        </div>
+                    </div>
                     <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-right">
+                            <label for="file">Image:</label>
+                        </div>
+                        <div class="col-md-8">
+                             <input type="file" name="file">
+                        </div>      
+                    </div>
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
+                        <div class="col-md-2 text-right">
                             <label for="name">Name:</label>
                         </div>
                         <div class="col-md-7">
@@ -26,7 +57,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-right">
                             <label for="style">Style:</label>
                         </div>
                         <div class="col-md-7">
@@ -34,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-right">
                             <label for="abv">ABV:</label>
                         </div>
                         <div class="col-md-7">
@@ -42,7 +73,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-right">
                             <label for="ibu">IBU:</label>
                         </div>
                         <div class="col-md-7">
@@ -50,14 +81,14 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2"> 
+                        <div class="col-md-2 text-right"> 
 					        <label for="description">Description:</label>
                         </div>
                         <div class="col-md-7">
                             <textarea rows="4" maxlength="700" class="form-control" name="description" value="{{beer.description}}"></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn_success padding-top" id="submit">
+                    <button type="submit" name="submit" value="saveBeer" class="btn_success padding-top">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save</button>
                     <a href="{{url_for('beerDetails', country_id=country.id, region_id=region.id, brewery_id=brewery.id, beer_id=beer.id)}}">
                         <button type="button" class="btn_danger delete">
