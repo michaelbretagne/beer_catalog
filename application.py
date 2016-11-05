@@ -43,7 +43,6 @@ def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     login_session['state'] = state
-    # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
 
@@ -61,8 +60,7 @@ def fbconnect():
         'facebook']['app_id']
     app_secret = json.loads(
         open('fb_client_secrets.json', 'r').read())['facebook']['app_secret']
-    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
-        app_id, app_secret, access_token)
+    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)  # noqa
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
 
@@ -89,7 +87,7 @@ def fbconnect():
     login_session['access_token'] = stored_token
 
     # Get user picture
-    url = 'https://graph.facebook.com/v2.4/me/picture?%s&redirect=0&height=200&width=200' % token
+    url = 'https://graph.facebook.com/v2.4/me/picture?%s&redirect=0&height=200&width=200' % token  # noqa
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
     data = json.loads(result)
@@ -112,12 +110,9 @@ def fbconnect():
     output += login_session['picture']
     output += ' " style = "width: 100px; height: 100px;border-radius: 50px; '
     output += ' -webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("You are now logged in as %s" % login_session['username'])
     return output
 
 # Facebook logout
-
-
 @app.route('/fbdisconnect')
 def fbdisconnect():
     facebook_id = login_session['facebook_id']
@@ -223,12 +218,9 @@ def gconnect():
     output += login_session['picture']
     output += ' " style = "width: 100px; height: 100px;border-radius: 50px;'
     output += ' -webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
-    flash("You are now logged in as %s" % login_session['username'])
     return output
 
 # Google+ logout - Revoke a current user's token and reset their login_session
-
-
 @app.route('/gdisconnect')
 def gdisconnect():
     # Only disconnect a connected user.
@@ -266,10 +258,10 @@ def disconnect():
         del login_session['picture']
         del login_session['user_id']
         del login_session['provider']
-        flash("You have successfully been logged out.")
+        flash(u'You have successfully been logged out', 'valid')
         return redirect(url_for('mainPage'))
     else:
-        flash("You were not logged in")
+        flash(u'You were not logged in', 'error')
         return redirect(url_for('mainPage'))
 
 
@@ -304,8 +296,6 @@ def countriesJSON():
     return jsonify(Country=[c.serialize for c in countries])
 
 # JSON APIs to view regions information
-
-
 @app.route('/country/<int:country_id>/region/JSON')
 def regionJSON(country_id):
     country = session.query(Country).filter_by(id=country_id).one()
@@ -313,8 +303,6 @@ def regionJSON(country_id):
     return jsonify(Region=[r.serialize for r in regions])
 
 # JSON APIs to view breweries information
-
-
 @app.route('/country/<int:country_id>/region/<int:region_id>/brewery/JSON')
 def breweryJSON(country_id, region_id):
     country = session.query(Country).filter_by(id=country_id).one()
@@ -323,9 +311,8 @@ def breweryJSON(country_id, region_id):
     return jsonify(Brewery=[b.serialize for b in breweries])
 
 # JSON APIs to view beers information
-
-
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/JSON')
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/beer/JSON')
 def beerJSON(country_id, region_id, brewery_id):
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
@@ -386,7 +373,7 @@ def showBrewery(country_id, region_id):
            methods=['GET', 'POST'])
 def newBrewery(country_id, region_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to add a new brewery')
+        flash(u'You need to be logged in to add a new brewery', 'error')
         return redirect('/login')
 
     user_id = login_session['user_id']
@@ -410,7 +397,8 @@ def newBrewery(country_id, region_id):
                              user_id=user_id)
         session.add(newBrewery)
         session.commit()
-        flash('New Brewery %s Successfully Created' % (newBrewery.name))
+        flash(u'New Brewery %s Successfully Created' % (newBrewery.name),
+              'valid')
         return redirect(url_for('showBrewery', country_id=country_id,
                                 region_id=region_id, user_id=user_id))
     else:
@@ -418,12 +406,11 @@ def newBrewery(country_id, region_id):
                                region=region)
 
 # Edit a brewery
-
-
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/edit', methods=['GET', 'POST'])
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/edit', methods=['GET', 'POST'])
 def editBrewery(country_id, region_id, brewery_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to edit a new brewery')
+        flash(u'You need to be logged in to edit a new brewery', 'error')
         return redirect('/login')
 
     country = session.query(Country).filter_by(id=country_id).one()
@@ -433,7 +420,7 @@ def editBrewery(country_id, region_id, brewery_id):
 
     # Check if the user is the one who created the brewery
     if login_session['user_id'] != breweryToEdit.user_id:
-        flash('You are not authorized to edit this brewery')
+        flash(u'You are not authorized to edit this brewery', 'error')
         return redirect(url_for('showBrewery', country_id=country_id,
                                 region_id=region_id))
 
@@ -441,9 +428,9 @@ def editBrewery(country_id, region_id, brewery_id):
         # Delete current image
         if request.form['submit'] == "deleteBreweryImage":
             breweryToEdit.image = UPLOAD_FOLDER + "/" + "not_available.jpg"
-            flash('Image Successfully Deleted')
+            flash(u'Image Successfully Deleted', 'valid')
             return render_template('editBrewery.html', country=country,
-                               region=region, brewery=breweryToEdit)
+                                   region=region, brewery=breweryToEdit)
         # Replace image
         if request.files['file']:
             file = request.files['file']
@@ -460,7 +447,7 @@ def editBrewery(country_id, region_id, brewery_id):
             breweryToEdit.name = request.form['name']
         session.add(breweryToEdit)
         session.commit()
-        flash('Brewery Successfully Edited')
+        flash(u'Brewery Successfully Edited', 'valid')
         return redirect(url_for('showBrewery', country_id=country_id,
                                 region_id=region_id))
     else:
@@ -468,12 +455,11 @@ def editBrewery(country_id, region_id, brewery_id):
                                region=region, brewery=breweryToEdit)
 
 # Delete a brewery
-
-
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/delete', methods=['GET', 'POST'])
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/delete', methods=['GET', 'POST'])
 def deleteBrewery(country_id, region_id, brewery_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to delete a new brewery')
+        flash(u'You need to be logged in to delete a brewery', 'error')
         return redirect('/login')
 
     country = session.query(Country).filter_by(id=country_id).one()
@@ -482,14 +468,14 @@ def deleteBrewery(country_id, region_id, brewery_id):
 
     # Check if the user is the one who created the brewery
     if login_session['user_id'] != breweryToDelete.user_id:
-        flash('You are not authorized to delete this brewery')
+        flash(u'You are not authorized to delete this brewery', 'error')
         return redirect(url_for('showBrewery', country_id=country_id,
                                 region_id=region_id))
 
     if request.method == 'POST':
         session.delete(breweryToDelete)
         session.commit()
-        flash('Brewery Successfully Deleted')
+        flash(u'Brewery Successfully Deleted', 'valid')
         return redirect(url_for('showBrewery', country_id=country_id,
                                 region_id=region_id))
     else:
@@ -499,8 +485,10 @@ def deleteBrewery(country_id, region_id, brewery_id):
 
 
 # Show all the beers for a brewery
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/')
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer')
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/')
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/beer')
 def showBeer(country_id, region_id, brewery_id):
     country = session.query(Country).filter_by(id=country_id).one()
     region = session.query(Region).filter_by(id=region_id).one()
@@ -541,10 +529,11 @@ def showBeer(country_id, region_id, brewery_id):
 
 
 # Create a new beer
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/new/', methods=['GET', 'POST'])
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/new/', methods=['GET', 'POST'])
 def newBeer(country_id, region_id, brewery_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to add a new beer')
+        flash(u'You need to be logged in to add a new beer', 'error')
         return redirect('/login')
 
     user_id = login_session['user_id']
@@ -572,7 +561,7 @@ def newBeer(country_id, region_id, brewery_id):
                        brewery_id=brewery_id, user_id=user_id)
         session.add(newBeer)
         session.commit()
-        flash('New Beer %s Successfully Created' % (newBeer.name))
+        flash(u'New Beer %s Successfully Created' % (newBeer.name), 'valid')
         return redirect(url_for('showBeer', country_id=country_id,
                                 region_id=region_id, brewery_id=brewery_id))
     else:
@@ -580,12 +569,11 @@ def newBeer(country_id, region_id, brewery_id):
                                brewery=brewery)
 
 # Edit a beer
-
-
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/edit', methods=['GET', 'POST'])
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/beer/<int:beer_id>/edit', methods=['GET', 'POST'])
 def editBeer(country_id, region_id, brewery_id, beer_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to edit a beer')
+        flash(u'You need to be logged in to edit a beer', 'error')
         return redirect('/login')
 
     country = session.query(Country).filter_by(id=country_id).one()
@@ -595,7 +583,7 @@ def editBeer(country_id, region_id, brewery_id, beer_id):
 
     # Check if the user is the one who created the beer
     if login_session['user_id'] != beerToEdit.user_id:
-        flash('You are not authorized to edit this beer')
+        flash(u'You are not authorized to edit this beer', 'error')
         return redirect(url_for('showBeer', country_id=country_id,
                                 region_id=region_id, brewery_id=brewery_id))
 
@@ -603,10 +591,10 @@ def editBeer(country_id, region_id, brewery_id, beer_id):
         # Delete current image
         if request.form['submit'] == "deleteBeerImage":
             beerToEdit.image = UPLOAD_FOLDER + "/" + "not_available.jpg"
-            flash('Image Successfully Deleted')
+            flash(u'Image Successfully Deleted', 'valid')
             return render_template('editBeer.html', country=country,
-                                    region=region, brewery=brewery,
-                                    beer=beerToEdit)
+                                   region=region, brewery=brewery,
+                                   beer=beerToEdit)
         # Replace image
         if request.files['file']:
             file = request.files['file']
@@ -631,7 +619,7 @@ def editBeer(country_id, region_id, brewery_id, beer_id):
             beerToEdit.description = request.form['description']
         session.add(beerToEdit)
         session.commit()
-        flash('Beer Successfully Edited')
+        flash(u'Beer Successfully Edited', 'valid')
         return redirect(url_for('showBeer', country_id=country_id,
                                 region_id=region_id, brewery_id=brewery_id))
     else:
@@ -639,12 +627,12 @@ def editBeer(country_id, region_id, brewery_id, beer_id):
                                brewery=brewery, beer=beerToEdit)
 
 # Delete a beer
-
-
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/delete', methods=['GET', 'POST'])
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/beer/<int:beer_id>/delete',
+           methods=['GET', 'POST'])
 def deleteBeer(country_id, region_id, brewery_id, beer_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to delete a beer')
+        flash(u'You need to be logged in to delete a beer', 'error')
         return redirect('/login')
 
     country = session.query(Country).filter_by(id=country_id).one()
@@ -654,14 +642,14 @@ def deleteBeer(country_id, region_id, brewery_id, beer_id):
 
     # Check if the user is the one who created the beer
     if login_session['user_id'] != beerToDelete.user_id:
-        flash('You are not authorized to delete this beer')
+        flash(u'You are not authorized to delete this beer', 'error')
         return redirect(url_for('showBeer', country_id=country_id,
                                 region_id=region_id, brewery_id=brewery_id))
 
     if request.method == 'POST':
         session.delete(beerToDelete)
         session.commit()
-        flash('Beer Successfully Deleted')
+        flash(u'Beer Successfully Deleted', 'valid')
         return redirect(url_for('showBeer', country_id=country_id,
                                 region_id=region_id, brewery_id=brewery_id))
     else:
@@ -670,14 +658,15 @@ def deleteBeer(country_id, region_id, brewery_id, beer_id):
                                beer=beerToDelete)
 
 # Show the details of a beer
-
-
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/')
-@app.route('/country/<int:country_id>/region/<int:region_id>/brewery/<int:brewery_id>/beer/<int:beer_id>/details',
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/beer/<int:beer_id>/')
+@app.route('/country/<int:country_id>/region/<int:region_id>/brewery \
+            /<int:brewery_id>/beer/<int:beer_id>/details',
            methods=['GET', 'POST'])
 def beerDetails(country_id, region_id, brewery_id, beer_id):
     if 'username' not in login_session:
-        flash('You need to be logged in to see the details of a beer')
+        flash(
+            u'You need to be logged in to see the details of a beer', 'error')
         return redirect('/login')
 
     user_id = login_session['user_id']
@@ -703,12 +692,13 @@ def beerDetails(country_id, region_id, brewery_id, beer_id):
                 user_id=user_id)
             session.add(newRating)
             session.commit()
-            flash('Thank you for your rating')
+            flash(u'Thank you for your rating', 'valid')
             return redirect(url_for('showBeer', country_id=country_id,
                                     region_id=region_id,
                                     brewery_id=brewery_id))
         else:
-            flash('Rating canceled! You already previously rate this beer')
+            flash(u'Rating canceled! You already rated this beer',
+                  'error')
     return render_template('beerDetails.html', country=country,
                            region=region, brewery=brewery, beer=beer,
                            beer_creator=beer_creator)
