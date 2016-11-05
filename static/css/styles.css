@@ -1,25 +1,5 @@
 /*---------color---------*/
 
-.light-blue {
-    color: #eff9ff;
-}
-
-.clear_gray {
-    color: #e0e0e0;
-}
-
-.light-gray {
-    color: #9d9d9d;
-}
-
-.dark-gray {
-    color: #080808;
-}
-
-.orange {
-    color: #f0c80d;
-}
-
 .white {
     color: #fff;
 }
@@ -27,7 +7,6 @@
 /*-------------------*/
 
 body {
-/*    background-color: #262930;*/
     background-image: url(../img/ardoise-3.jpg);
     background-attachment: fixed;
     background-size: cover;
@@ -36,7 +15,6 @@ body {
 .row {
     margin: 0;
 }
-
 
 p {
     font-size: 14px;
@@ -67,6 +45,11 @@ li {
 
 h1, h2, h3, h4, h5 {
     color: #080808;
+}
+
+h6 {
+    margin: 0;
+    padding: 0 0 3px 0;
 }
 
 hr {
@@ -131,6 +114,23 @@ label {
     color: white;
 }
 
+.btn_deleteImage {
+    background-color: #5e5e5e;
+    color: #fff;
+    border-radius: 5px;
+    padding: 4px 4px;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 10px 0px;
+    transition-duration: 0.4s;
+}
+
+.btn_deleteImage:hover {
+    border: 2px solid #5e5e5e;
+    background-color: #fff;
+    color: #5e5e5e;
+}
+
 /*---------Padding/Margin----------*/
 .padding {
     padding-top: 15px;
@@ -181,10 +181,17 @@ label {
     overflow-x: hidden;
 }
 
-/*---------Flash message---------*/
+/*---------Flash messages---------*/
 .flash {
+    padding: 0;
+}
+
+.error {
+    background-color: #f44336;
+}
+
+.valid {
     background-color: #4caf50;
-    padding: 0 auto;
 }
 
 /*---------background---------*/
@@ -263,12 +270,6 @@ img {
     border-bottom: solid 1px #e0e0e0;
 }
 
-/*----------Flags-----------*/
-
-.flags {
-    padding-top: 14px;
-}
-
 /*-------Beer Deatils---------*/
 
 .border {
@@ -288,7 +289,7 @@ img {
     text-align: center;
     border-right: solid 1px #e0e0e0;
     margin: 0px auto;
-    padding: 5px auto;
+    padding: 5px 0;
 }
 
 .ratings {
