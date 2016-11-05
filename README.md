@@ -29,3 +29,8 @@ In this project, I developed a web application that provides a list of beer with
   *You will then be able to get the client ID and client secret*<br>
 7. Access and test your application by visiting **http://localhost:8000 locally**
 8. Feel free to add your favorite beer into our database<br>
+
+##Important:
+
+This is not a commercial website. Some content has been quoted from **https://untappd.com/beer/top_rated**.<br>
+I do not take credit for the content nor do I endorse or criticize any products listed. 
