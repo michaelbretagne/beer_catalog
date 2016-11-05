@@ -20,15 +20,17 @@ In this project, I developed a web application that provides a list of beer with
 3. Clone the project: **https://github.com/michaelbretagne/beer_catalog.git**<br>
 *This will create a directory inside the vagrant directory named tournament*<br>
 4. Run Vagrant by entering: vagrant up<br>
-5. Log into Vagrant Machine by entering: vagrant ssh<br>
-6. Run the application by entering: python /vagrant/catalog/project.py)<br>
-7. Insert your Client ID & Client Secret into **client_secrets.json** file<br>
+5. Log into the Vagrant Machine by entering: vagrant ssh<br>
+6. Move to the directory project folder by entering: cd /vagrant/beer_catalog<br>
+7. Populate the application by entering: python brewery_populate.py
+8. Run the application by entering: python application.py<br>
+9. Insert your Client ID & Client Secret into **client_secrets.json** file<br>
   1. Create a new project on **https://console.developers.google.com**<br>
   2. Choose Credentials from the menu on the left<br>
   3. Create an OAuth Client ID<br>
   *You will then be able to get the client ID and client secret*<br>
-7. Access and test your application by visiting **http://localhost:8000 locally**
-8. Feel free to add your favorite beer into our database<br>
+10. Access and test your application locally by visiting **http://localhost:8000**<br>
+11. Feel free to add your favorite beer into our database<br>
 
 ##Important:
 
