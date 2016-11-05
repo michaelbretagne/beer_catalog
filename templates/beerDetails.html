@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-9">
             <div class="col-md-12">
-               <div class="col-md-6 text-center brewery-details border">
+                <div class="col-md-6 text-center brewery-details border">
                     <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{region.name}}</b></a></h5>
                 </div>
                 <div class="col-md-6 text-center brewery-details">
@@ -16,15 +16,13 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <div class="flash text-center div_center">
-                              {% with messages = get_flashed_messages() %}
-                      {% if messages %}
-                        <ul>
-                        {% for message in messages %}
-                            <li> <strong> {{ message }} </strong> </li>
+                    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                        <li class="{{category}}">{{ message }}</li>
                         {% endfor %}
-                        </ul>
-                        {% endif %}
-                    {% endwith %}
+                    </ul>
+                    {% endif %} {% endwith %}
                 </div>
             </div>
             <div class="padding-top padding-bottom">
@@ -43,7 +41,9 @@
         <div class="col-md-3 text-center user_box">
             <figure class="creator">
                 <img src="{{beer_creator.picture}}" class="img-circle user_details" width="90">
-                <figcaption>Beer added<br>by<br>{{beer_creator.name}}</figcaption>
+                <figcaption>Beer added
+                    <br>by
+                    <br>{{beer_creator.name}}</figcaption>
             </figure>
         </div>
     </div>

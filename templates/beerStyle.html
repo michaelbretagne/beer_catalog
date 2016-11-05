@@ -1,58 +1,58 @@
-{% extends "main.html" %}
-{% block content %}
-{% include "header.html" %}
+{% extends "main.html" %} {% block content %} {% include "header.html" %}
 <div class="container-fluid background-style">
-   <div class="row">
-       <div class="col-sm-8 main-box">
-           <h3 class="text-center"><b>All {{ style }}</b></h3><hr>
-                {% for beer in beers %}
-                <div class="row">
-                    <div class="col-md-3 image-box text-center">
-                        <img src="/{{beer.image}}" height="auto" width="100">
-                    </div>
-                    <div class="col-md-8 details-box">
-                        <h4><b>{{beer.name}}</b></h4>
-                        <p>Style: {{beer.style}}</p>
-                        <a href="{{url_for('beerDetails', country_id=countries.pop(0), region_id=regions.pop(0), brewery_id=breweries.pop(0), beer_id=beer.id)}}"><button type="button" class="btn-link btn-xs">More details here</button></a>
-                    </div>
+    <div class="row">
+        <div class="col-sm-8 main-box">
+            <h3 class="text-center"><b>All {{ style }}</b></h3>
+            <hr> {% for beer in beers %}
+            <div class="row">
+                <div class="col-md-3 image-box text-center">
+                    <img src="/{{beer.image}}" height="auto" width="100">
                 </div>
-                <div class="row beer-details">
-                    <div class="col-md-3 abv">
-                        <p>ABV: {{beer.abv}}%</p>
-                    </div>
-                    <div class="col-md-2 ibu">
-                        <p>IBU: {{beer.ibu}}</p>
-                    </div>
-                    <div class="col-md-4 stars">
-                        <input name="input-3" class="input-3 rating rating-loading" data-size="xxs" value="{{avg_stars.pop(0)}}">
-                    </div>
-                    <div class="col-md-3 ratings">
-                        <p>{{num_ratings.pop(0)}} ratings</p>
-                    </div>
+                <div class="col-md-8 details-box">
+                    <h4><b>{{beer.name}}</b></h4>
+                    <p>Style: {{beer.style}}</p>
+                    <a href="{{url_for('beerDetails', country_id=countries.pop(0), region_id=regions.pop(0), brewery_id=breweries.pop(0), beer_id=beer.id)}}">
+                        <button type="button" class="btn-link btn-xs">More details here</button>
+                    </a>
                 </div>
-                {% endfor %} 
-       </div>
-       <div class="row">
-           <div class="col-md-4 side-box">
-               <h5 class="text-center padding-top"><b>Top Rated beers</b></h5><hr>
-                {% for top_beer in top_beers %}
+            </div>
+            <div class="row beer-details">
+                <div class="col-md-3 abv">
+                    <p>ABV: {{beer.abv}}%</p>
+                </div>
+                <div class="col-md-2 ibu">
+                    <p>IBU: {{beer.ibu}}</p>
+                </div>
+                <div class="col-md-4 stars">
+                    <input name="input-3" class="input-3 rating rating-loading" data-size="xxs" value="{{avg_stars.pop(0)}}">
+                </div>
+                <div class="col-md-3 ratings">
+                    <p>{{num_ratings.pop(0)}} ratings</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-md-4 side-box">
+                <h5 class="text-center padding-top"><b>Top Rated beers</b></h5>
+                <hr> {% for top_beer in top_beers %}
                 <div class="row">
                     <div class="col-md-12">
                         <a href="{{url_for('beerDetails', country_id=top_beer[4], region_id=top_beer[5], brewery_id=top_beer[6], beer_id=top_beer[7])}}">
-                        <div class="col-md-4 image-box text-center">
-                            <img src="/{{top_beer[0]}}" height="auto" width="60">
-                        </div>
-                        <div class="col-md-8 details-box">
-                            <p class="small_p"><b>{{top_beer[1]}}</b></p>
-                            <p class="small_p">{{top_beer[2]}}</p>
-                            <p class="small_p">Rated {{top_beer[3]}}/5</p>
-                        </div></a>
+                            <div class="col-md-4 image-box text-center">
+                                <img src="/{{top_beer[0]}}" height="auto" width="60">
+                            </div>
+                            <div class="col-md-8 details-box">
+                                <p class="small_p"><b>{{top_beer[1]}}</b></p>
+                                <p class="small_p">{{top_beer[2]}}</p>
+                                <p class="small_p">Rated {{top_beer[3]}}/5</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
-                <hr>
-                {% endfor %}
-           </div>
-       </div>
-   </div>
+                <hr> {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

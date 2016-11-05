@@ -1,56 +1,63 @@
-{% extends "main.html" %}
-{% block content %}
-{% include "header.html" %}
-   
-    <div class="container-fluid background-home">       
-        <div class="row">
-            <div class="col-md-12 text-center padding">   
-                <h1 class="white">Beer Catalog</h1><br>
-                <h2 class="white">Thirsty? Want a cold one but you don't know which one!</h2>
-                <h3 class="white">Here are the top rated beer in the US</h3>	        
-                <h4 class="white">Search, Review, Create... </h4>
-            </div>
-        </div>        
-        <div class="row">
-            <div class="col-md-12 text-center">  
-                {%if 'username' not in session %}  
-                <a href="{{url_for('showLogin')}}" class="btn btn-success btn-lg btn-center" role="button">Sign In</a>
-                {% endif %}
-            </div>
+{% extends "main.html" %} {% block content %} {% include "header.html" %}
+<div class="container-fluid background-home">
+    <div class="row">
+        <div class="col-md-12 text-center padding">
+            <h1 class="white">Beer Catalog</h1>
+            <br>
+            <h2 class="white">Thirsty? Want a cold one but you don't know which one!</h2>
+            <h3 class="white">Here are the top rated beer in the US</h3>
+            <h4 class="white">Search, Review, Create... </h4>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="box text-center">
-                    <h4 class="white">Search by Style</h4>
-                    <div class="dropup">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Selections!
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="flash text-center">
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                <li class="{{category}}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %} {% endwith %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            {%if 'username' not in session %}
+            <a href="{{url_for('showLogin')}}" class="btn btn-success btn-lg btn-center" role="button">Sign In</a> {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box text-center">
+                <h4 class="white">Search by Style</h4>
+                <div class="dropup">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Selections!
                         <span class="caret"></span></button>
-                        <ul class="dropdown-menu scrollable-menu">
-                            <li class="dropdown-header">Style</li>
-                            {% for style in styles %}
-                                <li><a href="{{url_for('beerStyle', style=style.style)}}">{{style.style}}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    <ul class="dropdown-menu scrollable-menu">
+                        <li class="dropdown-header">Style</li>
+                        {% for style in styles %}
+                        <li><a href="{{url_for('beerStyle', style=style.style)}}">{{style.style}}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="box text-center">
-                    <h4 class="white">Search by Region/State</h4>
-                    <div class="dropup">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Selections!
+        </div>
+        <div class="col-md-6">
+            <div class="box text-center">
+                <h4 class="white">Search by Region/State</h4>
+                <div class="dropup">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Selections!
                         <span class="caret"></span></button>
-                        <ul class="dropdown-menu scrollable-menu">
-                            <li class="dropdown-header">States</li>
-                            {% for region in regions %}
-                            <li><a href="{{url_for('showBrewery', country_id=1, region_id=region.id)}}">{{region.name}}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                    <ul class="dropdown-menu scrollable-menu">
+                        <li class="dropdown-header">States</li>
+                        {% for region in regions %}
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=region.id)}}">{{region.name}}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}
-

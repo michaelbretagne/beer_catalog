@@ -1,9 +1,7 @@
-{% extends "main.html" %}
-{% block content %}
-{% include "header.html" %}
+{% extends "main.html" %} {% block content %} {% include "header.html" %}
 <div class="container-fluid background-pages">
-	<div class="row">
-	    <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
             <div class="col-md-6 text-center brewery-details border">
                 <h5><a href = "{{url_for('showBrewery', country_id=country.id, region_id=region.id)}}"><b>{{region.name}}</b></a></h5>
             </div>
@@ -13,70 +11,69 @@
             <div class="col-md-12 text-center padding">
                 <h1>New Beer</h1>
             </div>
-	    </div>
+        </div>
     </div>
-	<div class="row  center_div padding-top">
-		<div class="col-md-12">
-            <form action="#"  method = "post" enctype = "multipart/form-data">
+    <div class="row  center_div padding-top">
+        <div class="col-md-12">
+            <form action="#" method="post" enctype="multipart/form-data">
                 <div class="form-group row text-center margin">
                     <div class="col-md-12 col-md-offset-1 padding-xs">
                         <div class="col-md-2 text-right">
-                            <label for="file">Image:</label>
+                            <label for="file">Image</label>
                         </div>
                         <div class="col-md-7">
-                             <input type="file" name="file"/>
-                        </div>      
-                    </div>
-                    <div class="col-md-12 col-md-offset-1 padding-xs"> 
-                        <div class="col-md-2 text-right">  
-					        <label for="name">Name:</label>
+                            <input type="file" name="file" />
                         </div>
-                        <div class="col-md-7">
-					        <input type ="text" maxlength="50" class="form-control " name="name" placeholder="Name of the beer" required="true">
-					   </div>
                     </div>
-                    <div class="col-md-12 col-md-offset-1 padding-xs"> 
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
                         <div class="col-md-2 text-right">
-        					<label class="text-right" for="style">Style:</label>
+                            <label for="name">Name*</label>
                         </div>
                         <div class="col-md-7">
-					       <input type ="text" maxlength="20" class="form-control" name="style" placeholder="Style eg. IPA, Pale Ale, Blonde Ale" required>
-					    </div>
-                    </div>
-                    <div class="col-md-12 col-md-offset-1 padding-xs"> 
-                        <div class="col-md-2 text-right"> 
-					        <label for="abv">ABV:</label>
-				        </div>
-                        <div class="col-md-7">
-					        <input type="text" class="form-control" name="abv" placeholder="Alcohol By Volume (%)">
-					    </div>
-                    </div>
-                    <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2 text-right"> 
-					        <label for="ibu">IBU:</label>
-                        </div>
-                        <div class="col-md-7">
-					        <input type="text" maxlength="3" class="form-control" name="ibu" placeholder="International Bitterness Units">
+                            <input type="text" maxlength="50" class="form-control " name="name" placeholder="Name of the beer" required="true">
                         </div>
                     </div>
                     <div class="col-md-12 col-md-offset-1 padding-xs">
-                        <div class="col-md-2 text-right"> 
-					        <label for="description">Description:</label>
+                        <div class="col-md-2 text-right">
+                            <label class="text-right" for="style">Style*</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" maxlength="20" class="form-control" name="style" placeholder="Style eg. IPA, Pale Ale, Blonde Ale" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
+                        <div class="col-md-2 text-right">
+                            <label for="abv">ABV</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="abv" placeholder="Alcohol By Volume (%)">
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
+                        <div class="col-md-2 text-right">
+                            <label for="ibu">IBU</label>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" maxlength="3" class="form-control" name="ibu" placeholder="International Bitterness Units">
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-md-offset-1 padding-xs">
+                        <div class="col-md-2 text-right">
+                            <label for="description">Description</label>
                         </div>
                         <div class="col-md-7">
                             <textarea rows="4" maxlength="700" class="form-control" name="description" placeholder="Description of the beer (700 characters maximum)"></textarea>
                         </div>
                     </div>
-					<button type="submit" class="btn_success" id="submit">
-					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span> Create</button>
-					<a href="{{url_for('showBrewery', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
+                    <button type="submit" class="btn_success" id="submit">
+                        <span class="glyphicon glyphicon-glass" aria-hidden="true"></span> Create</button>
+                    <a href="{{url_for('showBrewery', country_id=country.id, region_id=region.id, brewery_id=brewery.id)}}">
                         <button type="button" class="btn_danger delete">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</button>
                     </a>
-				</div>
-			</form>
-		</div>
-	</div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
-

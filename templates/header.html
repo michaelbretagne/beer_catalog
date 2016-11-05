@@ -1,84 +1,81 @@
-
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="ion-ios-pint navbar-brand" href="#"><b> BCDB </b><span class="ion-ios-pint"></span></a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li><a href="{{url_for('mainPage')}}">Home<span class="sr-only">(current)</span></a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Countries<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="{{url_for('showRegion', country_id=1)}}">USA</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Regions<span class="caret"></span></a>
-              <ul class="dropdown-menu scrollable-menu">
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=1)}}">Alabama</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=2)}}">Alaska</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=3)}}">Arizona</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=4)}}">Arkansas</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=5)}}">California</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=6)}}">Colorado</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=7)}}">Connecticut</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=8)}}">Delaware</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=9)}}">Florida</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=10)}}">Georgia</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=11)}}">Hawaii</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=12)}}">Idaho</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=13)}}">Illinois</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=14)}}">Indiana</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=15)}}">Iowa</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=16)}}">Kansas</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=17)}}">Kentucky</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=18)}}">Louisiana</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=19)}}">Maine</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=20)}}">Maryland</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=21)}}">Massachusetts</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=22)}}">Michigan</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=23)}}">Minnesota</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=24)}}">Mississippi</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=25)}}">Missouri</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=26)}}">Montana</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=27)}}">Nebraska</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=28)}}">Nevada</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=29)}}">New Hampshire</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=30)}}">New Jersey</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=31)}}">New Mexico</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=32)}}">New York</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=33)}}">North Carolina</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=34)}}">North Dakota</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=35)}}">Ohio</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=36)}}">Oklahoma</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=37)}}">Oregon</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=38)}}">Pennsylvania</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=39)}}">Rhode Island</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=40)}}">South Carolina</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=41)}}">South Dakota</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=42)}}">Tennessee</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=43)}}">Texas</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=44)}}">Utah</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=45)}}">Vermont</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=46)}}">Virginia</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=47)}}">Washington</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=48)}}">West Virginia</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=49)}}">Wisconsin</a></li>
-                <li><a href="{{url_for('showBrewery', country_id=1, region_id=50)}}">Wyoming</a></li>
-              </ul>
-            </li>
-          </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="{{url_for('mainPage')}}">Home<span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Countries<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url_for('showRegion', country_id=1)}}">USA</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Regions<span class="caret"></span></a>
+                    <ul class="dropdown-menu scrollable-menu">
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=1)}}">Alabama</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=2)}}">Alaska</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=3)}}">Arizona</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=4)}}">Arkansas</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=5)}}">California</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=6)}}">Colorado</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=7)}}">Connecticut</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=8)}}">Delaware</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=9)}}">Florida</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=10)}}">Georgia</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=11)}}">Hawaii</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=12)}}">Idaho</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=13)}}">Illinois</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=14)}}">Indiana</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=15)}}">Iowa</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=16)}}">Kansas</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=17)}}">Kentucky</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=18)}}">Louisiana</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=19)}}">Maine</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=20)}}">Maryland</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=21)}}">Massachusetts</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=22)}}">Michigan</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=23)}}">Minnesota</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=24)}}">Mississippi</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=25)}}">Missouri</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=26)}}">Montana</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=27)}}">Nebraska</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=28)}}">Nevada</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=29)}}">New Hampshire</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=30)}}">New Jersey</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=31)}}">New Mexico</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=32)}}">New York</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=33)}}">North Carolina</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=34)}}">North Dakota</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=35)}}">Ohio</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=36)}}">Oklahoma</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=37)}}">Oregon</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=38)}}">Pennsylvania</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=39)}}">Rhode Island</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=40)}}">South Carolina</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=41)}}">South Dakota</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=42)}}">Tennessee</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=43)}}">Texas</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=44)}}">Utah</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=45)}}">Vermont</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=46)}}">Virginia</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=47)}}">Washington</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=48)}}">West Virginia</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=49)}}">Wisconsin</a></li>
+                        <li><a href="{{url_for('showBrewery', country_id=1, region_id=50)}}">Wyoming</a></li>
+                    </ul>
+                </li>
+            </ul>
             {%if 'username' not in session %}
-                <a href="{{url_for('showLogin')}}" class="btn btn-success navbar-btn navbar-right" role="button">Login</a>
-            {% else %}
-                <a href="{{url_for('disconnect')}}" class="btn btn-danger navbar-btn navbar-right" type="button">Logout</a>
-            {% endif %}
+            <a href="{{url_for('showLogin')}}" class="btn btn-success navbar-btn navbar-right" role="button">Login</a> {% else %}
+            <a href="{{url_for('disconnect')}}" class="btn btn-danger navbar-btn navbar-right" type="button">Logout</a> {% endif %}
         </div>
     </div>
 </nav>
