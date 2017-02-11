@@ -761,11 +761,11 @@ for beer in beers:
     session.commit()
 
 # Create Ratings for beers
-ratings = [{"id": "1", "num_of_stars": "5", "user_id": "1", "beer_id": "1"},
-           {"id": "2", "num_of_stars": "3", "user_id": "1", "beer_id": "1"}]
+ratings = [{"num_of_stars": "5", "user_id": "1", "beer_id": "1"},
+           {"num_of_stars": "3", "user_id": "1", "beer_id": "1"}]
 
 for rating in ratings:
-    newRating = Rating(id=rating["id"], num_of_stars=rating[
+    newRating = Rating(num_of_stars=rating[
                        "num_of_stars"], user_id=rating["user_id"],
                        beer_id=rating["beer_id"])
     session.add(newRating)
