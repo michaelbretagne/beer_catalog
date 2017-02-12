@@ -81,10 +81,10 @@ class Beer(Base):
     abv = Column(Integer)  # Alcohol By Volume
     ibu = Column(Integer)  # International Bitterness Units
     description = Column(String(700))  # Description of the beer
-    country_id = Column(Integer, ForeignKey('country.id'))
-    region_id = Column(Integer, ForeignKey('region.id'))
-    brewery_id = Column(Integer, ForeignKey('brewery.id'))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    country_id = Column(Integer, ForeignKey('country.id', ondelete='CASCADE'))
+    region_id = Column(Integer, ForeignKey('region.id', ondelete='CASCADE'))
+    brewery_id = Column(Integer, ForeignKey('brewery.id', ondelete='CASCADE'))
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
     country = relationship(Country)
     region = relationship(Region)
     brewery = relationship(Brewery)
@@ -108,8 +108,8 @@ class Rating(Base):
 
     id = Column(Integer, primary_key=True)
     num_of_stars = Column(Integer, default=0)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    beer_id = Column(Integer, ForeignKey('beer.id'))
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    beer_id = Column(Integer, ForeignKey('beer.id', ondelete='CASCADE'))
     beer = relationship(Beer)
     user = relationship(User)
 
